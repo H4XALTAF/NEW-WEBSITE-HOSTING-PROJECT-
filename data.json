@@ -1,0 +1,42 @@
+{
+  "users": {},
+  "settings": {
+    "website_name": "H4X ALTAF",
+    "tagline": "Premium Hosting Platform",
+    "maintenance": false,
+    "maintenance_message": "Website is under maintenance. Please come back later.",
+    "registration_enabled": true,
+    "allow_uploads": true,
+    "currency": "INR"
+  },
+  "theme": {
+    "primary": "#ff0000",
+    "secondary": "#8b0000",
+    "background": "#080808",
+    "surface": "#151515",
+    "text": "#ffffff",
+    "accent": "#ff3333"
+  },
+  "content": {
+    "home_title": "WELCOME TO H4X ALTAF",
+    "home_subtitle": "Powerful Hosting. Simple Management.",
+    "dashboard_title": "USER DASHBOARD",
+    "login_title": "WELCOME BACK",
+    "register_title": "CREATE YOUR ACCOUNT",
+    "maintenance_title": "WE WILL BE BACK SOON",
+    "server_title": "YOUR SERVER",
+    "footer_text": "© 2026 H4X ALTAF. All Rights Reserved."
+  },
+  "plans": [],
+  "transactions": [],
+  "services": [],
+  "uploads": [],
+  "history": [],
+  "notifications": [],
+  "stats": {
+    "total_users": 0,
+    "total_servers": 0,
+    "total_uploads": 0,
+    "total_transactions": 0
+  }
+}
