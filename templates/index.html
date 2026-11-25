@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>H4X ALTAF | Premium Hosting</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+    --red:#ff2020;
+    --dark-red:#790000;
+    --bg:#080808;
+    --card:#131313;
+    --border:#332020;
+    --muted:#999;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+    background:var(--bg);
+    color:white;
+    font-family:Inter,sans-serif;
+    overflow-x:hidden;
+}
+body:before,body:after{
+    content:"";
+    position:fixed;
+    width:350px;height:350px;
+    border-radius:50%;
+    filter:blur(120px);
+    z-index:-2;
+    pointer-events:none;
+}
+body:before{background:#a0000030;top:-150px;right:-100px}
+body:after{background:#70000020;bottom:-150px;left:-100px}
+
+#particles{
+    position:fixed;inset:0;
+    z-index:-1;pointer-events:none;overflow:hidden;
+}
+.particle{
+    position:absolute;width:3px;height:3px;
+    border-radius:50%;background:red;
+    box-shadow:0 0 12px red;
+    animation:particleMove linear infinite;
+}
+@keyframes particleMove{
+    from{transform:translateY(105vh);opacity:0}
+    15%{opacity:.7}
+    85%{opacity:.4}
+    to{transform:translateY(-10vh);opacity:0}
+}
+
+/* ===== NAVBAR ===== */
+.navbar{
+    width:100%;height:76px;
+    display:flex;align-items:center;
+    justify-content:space-between;
+    padding:0 7%;
+    background:#0b0b0bea;
+    border-bottom:1px solid #321414;
+    backdrop-filter:blur(18px);
+    position:sticky;top:0;z-index:500;
+}
+.brand{
+    display:flex;align-items:center;gap:11px;
+    text-decoration:none;color:white;
+}
+.brand-logo{
+    width:44px;height:44px;
+    border-radius:11px;
+    object-fit:cover;
+    border:1px solid #ff202060;
+    box-shadow:0 0 16px #ff202070, 0 0 32px #ff000040;
+    background:#1a0505;
+    transition:transform .35s, box-shadow .35s;
+    animation:logoGlow 3s ease-in-out infinite;
+}
+@keyframes logoGlow{
+    0%,100%{box-shadow:0 0 16px #ff202070, 0 0 32px #ff000040}
+    50%{box-shadow:0 0 28px #ff2020cc, 0 0 55px #ff000080}
+}
+.brand-logo:hover{transform:scale(1.08) rotate(-3deg)}
+.brand-text{line-height:1.1}
+.brand-text b{
+    font:900 20px Orbitron,sans-serif;
+    letter-spacing:1px;
+}
+.brand-text b span{color:var(--red);text-shadow:0 0 15px #ff000099}
+.brand-text small{
+    display:block;font:700 8px Inter;
+    color:#777;letter-spacing:3px;margin-top:6px;
+}
+.nav-links{
+    display:flex;align-items:center;gap:28px;
+}
+.nav-links a{
+    color:#aaa;text-decoration:none;
+    font-size:11px;font-weight:700;
+    transition:.25s;
+}
+.nav-links a:hover{color:white}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.btn{
+    padding:11px 17px;border-radius:7px;
+    font-size:10px;font-weight:800;
+    text-decoration:none;display:inline-flex;
+    align-items:center;justify-content:center;
+    cursor:pointer;transition:.3s;
+}
+.btn-outline{
+    border:1px solid #702020;color:white;background:transparent;
+}
+.btn-outline:hover{border-color:red;color:#ff5555}
+.btn-red{
+    background:linear-gradient(110deg,#ff2929,#790000);
+    border:1px solid #b00000;color:white;
+    box-shadow:0 5px 20px #ff000025;
+}
+.btn-red:hover{
+    transform:translateY(-3px);
+    box-shadow:0 8px 25px #ff000055;
+}
+.menu-btn{
+    display:none;background:#1a1010;
+    border:1px solid var(--border);
+    color:white;border-radius:8px;
+    padding:9px 12px;font-size:20px;
+}
+
+/* ===== MUSIC TOGGLE ===== */
+.music-toggle{
+    position:fixed;bottom:22px;right:22px;z-index:600;
+    width:52px;height:52px;border-radius:50%;
+    background:linear-gradient(135deg,#2a0a0a,#1a0505);
+    border:1px solid #ff202060;
+    color:#ff5555;font-size:21px;
+    display:grid;place-items:center;cursor:pointer;
+    box-shadow:0 0 18px #ff000044, inset 0 0 10px #ff000022;
+    transition:transform .3s, box-shadow .3s;
+    animation:musicPulse 2.5s ease-in-out infinite;
+}
+@keyframes musicPulse{
+    0%,100%{box-shadow:0 0 18px #ff000044, inset 0 0 10px #ff000022}
+    50%{box-shadow:0 0 32px #ff000088, inset 0 0 18px #ff000055}
+}
+.music-toggle:hover{transform:scale(1.12);border-color:#ff2020;animation-play-state:paused}
+.music-toggle.playing{
+    color:#fff;border-color:#ff2020;
+    background:linear-gradient(135deg,#ff2020,#7a0000);
+}
+.music-toggle .icon-off{display:inline}
+.music-toggle .icon-on{display:none}
+.music-toggle.playing .icon-off{display:none}
+.music-toggle.playing .icon-on{display:inline}
+
+/* HERO */
+.hero{
+    min-height:620px;
+    display:flex;align-items:center;
+    padding:90px 8%;
+    position:relative;overflow:hidden;
+}
+.hero-content{max-width:690px;z-index:2}
+.hero-tag{
+    display:inline-block;
+    color:#ff7777;background:#350909;
+    border:1px solid #772020;
+    border-radius:30px;padding:8px 14px;
+    font-size:9px;font-weight:800;
+    letter-spacing:2px;margin-bottom:25px;
+    animation:fadeUp .7s ease both;
+}
+.hero h1{
+    font:900 clamp(35px,6vw,68px)/1.15 Orbitron,sans-serif;
+    letter-spacing:-2px;
+    animation:fadeUp .8s ease both;
+}
+.hero h1 span{
+    color:var(--red);
+    text-shadow:0 0 30px #ff000066;
+}
+.hero-description{
+    max-width:530px;color:#aaa;
+    font-size:13px;line-height:2;
+    margin-top:23px;
+    animation:fadeUp 1s ease both;
+}
+.hero-buttons{
+    display:flex;gap:13px;flex-wrap:wrap;
+    margin-top:30px;
+    animation:fadeUp 1.1s ease both;
+}
+.hero-buttons .btn{padding:14px 21px}
+.hero-visual{
+    position:absolute;right:8%;top:50%;
+    transform:translateY(-50%);
+    width:310px;height:310px;
+    display:grid;place-items:center;
+    border-radius:50%;
+    border:1px solid #ff202033;
+    box-shadow:0 0 60px #ff000015,inset 0 0 60px #ff000015;
+    animation:visualFloat 5s ease-in-out infinite;
+}
+.hero-visual:before,.hero-visual:after{
+    content:"";position:absolute;
+    border:1px solid #ff202044;border-radius:50%;
+}
+.hero-visual:before{inset:25px}
+.hero-visual:after{inset:55px;border-color:#ff202077}
+.hero-logo-img{
+    width:120px;height:120px;border-radius:24px;
+    object-fit:cover;
+    border:2px solid #ff202080;
+    box-shadow:0 0 40px #ff2020aa, 0 0 80px #ff000060;
+    animation:heroLogoPulse 3.5s ease-in-out infinite;
+    background:#1a0505;
+}
+@keyframes heroLogoPulse{
+    0%,100%{box-shadow:0 0 40px #ff2020aa, 0 0 80px #ff000060}
+    50%{box-shadow:0 0 60px #ff2020dd, 0 0 110px #ff0000aa}
+}
+@keyframes visualFloat{
+    0%,100%{transform:translateY(-50%)}
+    50%{transform:translateY(calc(-50% - 13px))}
+}
+@keyframes fadeUp{
+    from{opacity:0;transform:translateY(25px)}
+    to{opacity:1;transform:translateY(0)}
+}
+
+/* TRUST STRIP */
+.trust-strip{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:15px;padding:22px 8%;
+    border-top:1px solid #281515;
+    border-bottom:1px solid #281515;
+    background:#100c0c;
+}
+.trust-item{text-align:center}
+.trust-item h3{
+    font:800 19px Orbitron;color:#ff3636;
+}
+.trust-item p{font-size:10px;color:#888;margin-top:7px}
+
+/* COMMON SECTION */
+.section{
+    padding:85px 8%;
+}
+.section-heading{text-align:center;margin-bottom:42px}
+.section-tag{
+    color:#ff5555;font-size:9px;
+    font-weight:900;letter-spacing:3px;
+}
+.section-heading h2{
+    font:800 clamp(23px,4vw,35px) Orbitron;
+    margin-top:14px;
+}
+.section-heading h2 span{color:var(--red)}
+.section-heading p{
+    color:#888;font-size:11px;
+    line-height:1.9;max-width:540px;
+    margin:14px auto 0;
+}
+
+/* FEATURES */
+.features{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:17px;
+}
+.feature-card{
+    padding:25px;background:linear-gradient(145deg,#191313,#101010);
+    border:1px solid var(--border);
+    border-radius:13px;transition:.35s;
+}
+.feature-card:hover{
+    transform:translateY(-8px);
+    border-color:#a00000;
+    box-shadow:0 12px 30px #ff000018;
+}
+.feature-icon{
+    width:47px;height:47px;
+    display:grid;place-items:center;
+    background:#350909;border:1px solid #6b1717;
+    border-radius:11px;font-size:21px;
+    margin-bottom:20px;
+}
+.feature-card h3{font-size:13px;margin-bottom:10px}
+.feature-card p{font-size:10px;color:#999;line-height:1.9}
+
+/* PRICING */
+.pricing-section{
+    background:linear-gradient(180deg,#0b0808,#130909,#0b0808);
+    border-top:1px solid #281414;
+    border-bottom:1px solid #281414;
+}
+.plans{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:17px;
+}
+.plan{
+    position:relative;padding:25px;
+    background:#141111;border:1px solid var(--border);
+    border-radius:14px;transition:.35s;
+    overflow:hidden;
+}
+.plan:hover{
+    transform:translateY(-7px);
+    border-color:#c00000;
+    box-shadow:0 12px 35px #ff000020;
+}
+.plan.popular{
+    border-color:#b50000;
+    box-shadow:0 0 25px #ff000015;
+}
+.popular-label{
+    position:absolute;top:15px;right:-30px;
+    background:#c90000;color:white;
+    padding:6px 35px;font-size:8px;
+    font-weight:900;transform:rotate(35deg);
+}
+.plan-type{
+    font-size:11px;font-weight:800;
+    color:#ff6666;letter-spacing:1px;
+}
+.plan h3{font-size:18px;margin-top:12px}
+.price{
+    font:800 30px Orbitron;
+    margin:20px 0 7px;
+}
+.price small{font:500 10px Inter;color:#888}
+.plan-duration{font-size:9px;color:#777}
+.plan ul{
+    list-style:none;margin:23px 0;
+}
+.plan li{
+    font-size:10px;color:#bbb;
+    padding:10px 0;border-bottom:1px solid #292020;
+}
+.plan li:before{content:"✓";color:#ff4545;margin-right:10px;font-weight:900}
+.plan .btn{width:100%;padding:13px}
+
+/* STEPS */
+.steps{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:18px;
+}
+.step{
+    text-align:center;padding:25px 18px;
+    background:#131313;border:1px solid var(--border);
+    border-radius:12px;transition:.3s;
+}
+.step:hover{border-color:#9b0000;transform:translateY(-5px)}
+.step-number{
+    width:45px;height:45px;margin:0 auto 17px;
+    display:grid;place-items:center;
+    border-radius:50%;background:#4a0909;
+    border:1px solid #9d2020;
+    color:#ff5555;font:800 15px Orbitron;
+}
+.step h3{font-size:12px;margin-bottom:9px}
+.step p{font-size:10px;color:#888;line-height:1.8}
+
+/* CTA */
+.cta{
+    margin:10px 8% 80px;padding:45px 25px;
+    text-align:center;border-radius:16px;
+    border:1px solid #8e1717;
+    background:radial-gradient(circle at center,#590000,#170707 75%);
+    box-shadow:0 0 40px #ff000015;
+}
+.cta h2{font:800 clamp(21px,4vw,32px) Orbitron}
+.cta h2 span{color:#ff3434}
+.cta p{color:#bbb;font-size:11px;margin:15px auto 23px;line-height:1.8}
+
+/* FOOTER */
+footer{
+    padding:45px 8% 22px;
+    background:#0d0b0b;border-top:1px solid #321414;
+}
+.footer-grid{
+    display:grid;grid-template-columns:2fr 1fr 1fr;
+    gap:35px;margin-bottom:35px;
+}
+.footer-about p{
+    max-width:320px;color:#888;
+    font-size:10px;line-height:1.9;margin-top:15px;
+}
+.footer-col h3{font-size:11px;margin-bottom:17px}
+.footer-col a{
+    display:block;text-decoration:none;
+    color:#888;font-size:10px;margin:12px 0;
+    transition:.2s;
+}
+.footer-col a:hover{color:#ff4545}
+.copyright{
+    border-top:1px solid #292020;
+    padding-top:20px;text-align:center;
+    color:#666;font-size:9px;
+}
+.copyright span{color:#ff3636}
+
+@media(max-width:1000px){
+    .hero-visual{right:4%;width:230px;height:230px}
+    .hero-logo-img{width:90px;height:90px;border-radius:18px}
+    .hero-content{max-width:580px}
+}
+@media(max-width:760px){
+    .navbar{padding:0 5%;height:68px}
+    .menu-btn{display:block}
+    .nav-links{
+        display:none;position:absolute;top:68px;
+        left:0;width:100%;padding:20px 6%;
+        background:#100c0c;
+        border-bottom:1px solid #421414;
+        flex-direction:column;align-items:flex-start;
+        gap:20px;
+    }
+    .nav-links.open{display:flex}
+    .nav-actions .btn{padding:10px 12px;font-size:9px}
+    .hero{min-height:560px;padding:75px 7%}
+    .hero-visual{opacity:.22;right:-75px;width:240px;height:240px}
+    .hero-content{max-width:100%}
+    .hero h1{font-size:clamp(33px,9vw,53px)}
+    .trust-strip{padding:22px 4%;gap:8px}
+    .trust-item h3{font-size:15px}
+    .trust-item p{font-size:8px}
+    .section{padding:65px 6%}
+    .features,.plans{grid-template-columns:repeat(2,1fr)}
+    .steps{grid-template-columns:1fr}
+    .footer-grid{grid-template-columns:1fr 1fr}
+    .footer-about{grid-column:1/-1}
+    .brand-logo{width:38px;height:38px}
+    .brand-text b{font-size:17px}
+}
+@media(max-width:480px){
+    .nav-actions .btn-outline{display:none}
+    .hero{min-height:520px}
+    .hero-description{font-size:11px}
+    .features,.plans{grid-template-columns:1fr}
+    .trust-item h3{font-size:13px}
+    .cta{margin:0 5% 55px;padding:35px 18px}
+    .footer-grid{grid-template-columns:1fr 1fr;gap:20px}
+    .music-toggle{width:46px;height:46px;bottom:16px;right:16px;font-size:19px}
+}
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        scroll-behavior:auto!important;
+        transition-duration:.01ms!important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div id="particles"></div>
+
+<!-- ===== BACKGROUND MUSIC ===== -->
+<audio id="bg-music" loop preload="auto">
+    <source src="https://www.image2url.com/r2/default/audio/1791932308677-8274844f-c990-452e-aea1-9fad247c0578.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-toggle" id="musicToggle" aria-label="Toggle background music">
+    <span class="icon-off">🔇</span>
+    <span class="icon-on">🔊</span>
+</button>
+
+<nav class="navbar">
+    <a href="/" class="brand">
+        <img src="https://i.postimg.cc/C5tfyH1H/file-00000000ba30820b8f4a7075c4fd3a41.png"
+             alt="H4X ALTAF Logo" class="brand-logo">
+        <div class="brand-text">
+            <b>H4X <span>ALTAF</span></b>
+            <small>HOSTING PLATFORM</small>
+        </div>
+    </a>
+
+    <div class="nav-links" id="navLinks">
+        <a href="#home" onclick="closeMenu()">Home</a>
+        <a href="#features" onclick="closeMenu()">Features</a>
+        <a href="#plans" onclick="closeMenu()">Hosting Plans</a>
+        <a href="#how" onclick="closeMenu()">How It Works</a>
+    </div>
+
+    <div class="nav-actions">
+        <a href="/login" class="btn btn-outline">LOGIN</a>
+        <a href="/login?mode=register" class="btn btn-red">GET STARTED →</a>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </div>
+</nav>
+
+<main>
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <div class="hero-tag">✦ NEXT GENERATION HOSTING PLATFORM</div>
+
+        <h1>
+            POWER YOUR<br>
+            <span>IDEAS</span> WITH<br>
+            H4X ALTAF.
+        </h1>
+
+        <p class="hero-description">
+            A single platform for your Telegram bots, Python applications,
+            HTML websites and web applications. Simple hosting,
+            easy management and a premium experience.
+        </p>
+
+        <div class="hero-buttons">
+            <a href="/login?mode=register" class="btn btn-red">START HOSTING →</a>
+            <a href="#plans" class="btn btn-outline">EXPLORE PLANS</a>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <img src="https://i.postimg.cc/C5tfyH1H/file-00000000ba30820b8f4a7075c4fd3a41.png"
+             alt="H4X ALTAF" class="hero-logo-img">
+    </div>
+</section>
+
+<section class="trust-strip">
+    <div class="trust-item">
+        <h3>24/7</h3>
+        <p>PLATFORM ACCESS</p>
+    </div>
+    <div class="trust-item">
+        <h3>6+</h3>
+        <p>HOSTING CATEGORIES</p>
+    </div>
+    <div class="trust-item">
+        <h3>1 PANEL</h3>
+        <p>EASY MANAGEMENT</p>
+    </div>
+</section>
+
+<section class="section" id="features">
+    <div class="section-heading">
+        <div class="section-tag">WHY CHOOSE US</div>
+        <h2>POWERFUL <span>FEATURES</span></h2>
+        <p>Everything you need to manage your hosting services from one convenient platform.</p>
+    </div>
+
+    <div class="features">
+        <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>Telegram Bot Hosting</h3>
+            <p>Host and manage your Telegram bot projects from your account.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🐍</div>
+            <h3>Python Applications</h3>
+            <p>Deploy supported Python projects with convenient management.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🌐</div>
+            <h3>Website Hosting</h3>
+            <p>Publish HTML websites and web projects in one place.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">💳</div>
+            <h3>Wallet System</h3>
+            <p>Manage your account balance and view transaction history.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🎛️</div>
+            <h3>Easy Dashboard</h3>
+            <p>Access your services and account information through one dashboard.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Account Protection</h3>
+            <p>Account access and permissions will be managed securely by the backend.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section pricing-section" id="plans">
+    <div class="section-heading">
+        <div class="section-tag">CHOOSE YOUR PACKAGE</div>
+        <h2>HOSTING <span>PLANS</span></h2>
+        <p>Choose a plan according to your project requirements. All listed plans are for 30 days.</p>
+    </div>
+
+    <div class="plans">
+
+        <div class="plan">
+            <div class="plan-type">STARTER</div>
+            <h3>Small Telegram Bot</h3>
+            <div class="price">₹58 <small>/ 30 days</small></div>
+            <div class="plan-duration">For smaller bot projects</div>
+            <ul>
+                <li>Telegram bot hosting</li>
+                <li>Basic resource package</li>
+                <li>Service management</li>
+                <li>Account dashboard</li>
+            </ul>
+            <a href="/login" class="btn btn-outline">SELECT PLAN</a>
+        </div>
+
+        <div class="plan popular">
+            <div class="popular-label">POPULAR</div>
+            <div class="plan-type">STANDARD</div>
+            <h3>Normal Python Bot</h3>
+            <div class="price">₹89 <small>/ 30 days</small></div>
+            <div class="plan-duration">For regular Python bots</div>
+            <ul>
+                <li>Python bot hosting</li>
+                <li>Standard resource package</li>
+                <li>Service management</li>
+                <li>Account dashboard</li>
+            </ul>
+            <a href="/login" class="btn btn-red">SELECT PLAN</a>
+        </div>
+
+        <div class="plan">
+            <div class="plan-type">ADVANCED</div>
+            <h3>Advanced Python Bot</h3>
+            <div class="price">₹149 <small>/ 30 days</small></div>
+            <div class="plan-duration">For advanced bot projects</div>
+            <ul>
+                <li>Advanced Python hosting</li>
+                <li>Higher resource package</li>
+                <li>Service management</li>
+                <li>Account dashboard</li>
+            </ul>
+            <a href="/login" class="btn btn-outline">SELECT PLAN</a>
+        </div>
+
+        <div class="plan">
+            <div class="plan-type">WEBSITE</div>
+            <h3>HTML Website</h3>
+            <div class="price">₹119 <small>/ 30 days</small></div>
+            <div class="plan-duration">For HTML website projects</div>
+            <ul>
+                <li>HTML website hosting</li>
+                <li>Website management</li>
+                <li>Project dashboard</li>
+                <li>30-day plan</li>
+            </ul>
+            <a href="/login" class="btn btn-outline">SELECT PLAN</a>
+        </div>
+
+        <div class="plan">
+            <div class="plan-type">WEB APP</div>
+            <h3>Web Application</h3>
+            <div class="price">₹180 <small>/ 30 days</small></div>
+            <div class="plan-duration">For web application projects</div>
+            <ul>
+                <li>Web application hosting</li>
+                <li>Application management</li>
+                <li>Project dashboard</li>
+                <li>30-day plan</li>
+            </ul>
+            <a href="/login" class="btn btn-outline">SELECT PLAN</a>
+        </div>
+
+        <div class="plan">
+            <div class="plan-type">PREMIUM</div>
+            <h3>Large Application</h3>
+            <div class="price">₹301 <small>/ 30 days</small></div>
+            <div class="plan-duration">For larger application projects</div>
+            <ul>
+                <li>Large application hosting</li>
+                <li>Higher resource package</li>
+                <li>Service management</li>
+                <li>30-day plan</li>
+            </ul>
+            <a href="/login" class="btn btn-outline">SELECT PLAN</a>
+        </div>
+
+    </div>
+</section>
+
+<section class="section" id="how">
+    <div class="section-heading">
+        <div class="section-tag">SIMPLE PROCESS</div>
+        <h2>HOW IT <span>WORKS</span></h2>
+        <p>Get started with your hosting project in a few simple steps.</p>
+    </div>
+
+    <div class="steps">
+        <div class="step">
+            <div class="step-number">01</div>
+            <h3>Create Your Account</h3>
+            <p>Register and access your personal hosting dashboard.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">02</div>
+            <h3>Choose A Hosting Plan</h3>
+            <p>Select a suitable hosting package for your project.</p>
+        </div>
+        <div class="step">
+            <div class="step-number">03</div>
+            <h3>Upload Your Project</h3>
+            <p>Submit your supported project and manage it through your account.</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <h2>READY TO <span>GET STARTED?</span></h2>
+    <p>Create your account and explore the H4X ALTAF hosting platform.</p>
+    <a href="/login?mode=register" class="btn btn-red">CREATE ACCOUNT →</a>
+</section>
+
+</main>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-about">
+            <div class="brand">
+                <img src="https://i.postimg.cc/C5tfyH1H/file-00000000ba30820b8f4a7075c4fd3a41.png"
+                     alt="H4X ALTAF Logo" class="brand-logo">
+                <div class="brand-text">
+                    <b>H4X <span>ALTAF</span></b>
+                    <small>HOSTING PLATFORM</small>
+                </div>
+            </div>
+            <p>A platform for hosting Telegram bots, Python applications, websites and web applications.</p>
+        </div>
+
+        <div class="footer-col">
+            <h3>QUICK LINKS</h3>
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#plans">Hosting Plans</a>
+            <a href="/login">Login</a>
+        </div>
+
+        <div class="footer-col">
+            <h3>ACCOUNT</h3>
+            <a href="/login?mode=register">Register</a>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/login">My Account</a>
+        </div>
+    </div>
+
+    <div class="copyright">
+        © 2026 <span>H4X ALTAF</span> — ALL RIGHTS RESERVED.
+    </div>
+</footer>
+
+<script>
+function toggleMenu(){
+    document.getElementById("navLinks").classList.toggle("open");
+}
+function closeMenu(){
+    document.getElementById("navLinks").classList.remove("open");
+}
+
+// Lightweight animated particles
+(function(){
+    const container=document.getElementById("particles");
+    const count=window.innerWidth<600?12:24;
+
+    for(let i=0;i<count;i++){
+        const p=document.createElement("span");
+        p.className="particle";
+        p.style.left=Math.random()*100+"%";
+        p.style.animationDuration=(8+Math.random()*10)+"s";
+        p.style.animationDelay=(Math.random()*10)+"s";
+        container.appendChild(p);
+    }
+})();
+
+/* ========== BACKGROUND MUSIC TOGGLE ========== */
+(function(){
+    const music = document.getElementById("bg-music");
+    const btn = document.getElementById("musicToggle");
+    music.volume = 0.35;
+    let playing = false;
+
+    function updateUI(state){
+        playing = state;
+        btn.classList.toggle("playing", state);
+    }
+
+    btn.addEventListener("click", () => {
+        if(playing){
+            music.pause();
+            updateUI(false);
+        } else {
+            music.play().then(()=>updateUI(true)).catch(()=>updateUI(false));
+        }
+    });
+
+    // Try autoplay on load; if blocked, stay off until user clicks
+    window.addEventListener("load", () => {
+        music.play().then(()=>updateUI(true)).catch(()=>updateUI(false));
+    });
+
+    // Pause when tab hidden, resume if it was playing
+    document.addEventListener("visibilitychange", () => {
+        if(document.hidden){ if(playing) music.pause(); }
+        else { if(playing) music.play().catch(()=>{}); }
+    });
+})();
+</script>
+
+</body>
+</html>

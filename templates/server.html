@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>H4X ALTAF | Server Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --red:#ff2929;
+ --darkred:#850000;
+ --bg:#080808;
+ --panel:#101010;
+ --border:#292020;
+ --muted:#888;
+ --green:#28d982;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+ background:var(--bg);color:#fff;
+ font-family:Inter,sans-serif;min-height:100vh;
+ position:relative;overflow-x:hidden;
+}
+body:before{
+ content:"";position:fixed;width:350px;height:350px;
+ background:#b0000020;filter:blur(120px);
+ top:-150px;right:-100px;pointer-events:none;
+ z-index:-1;
+}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit}
+
+/* FIRE & EMBER LAYER */
+#fire-layer {
+ position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.ember {
+ position: absolute; bottom: -20px; border-radius: 50%;
+ background: radial-gradient(circle, #fff 0%, var(--red) 40%, transparent 80%);
+ box-shadow: 0 0 10px var(--red), 0 0 20px var(--red);
+ animation: flyUp linear infinite;
+}
+@keyframes flyUp {
+ 0% { transform: translateY(0) scale(1); opacity: 0; }
+ 10% { opacity: 1; }
+ 80% { opacity: 0.8; }
+ 100% { transform: translateY(-110vh) scale(0); opacity: 0; }
+}
+
+.layout{display:flex;min-height:100vh;position:relative;z-index:1}
+
+/* SIDEBAR */
+.sidebar{
+ width:245px;background:#0c0c0c;
+ border-right:1px solid var(--border);
+ padding:25px 16px;position:fixed;
+ top:0;bottom:0;left:0;z-index:10;
+ transition:.3s;
+}
+.brand{
+ display:flex;align-items:center;gap:11px;
+ padding:0 10px 30px;
+}
+.brand-logo{
+ width:38px;height:38px;border-radius:10px;object-fit:cover;
+ border:1px solid var(--red);background:#1a0505;
+ box-shadow:0 0 15px #ff202060;transition:transform .3s;
+}
+.brand-logo:hover{transform:scale(1.05)}
+.brand-text{line-height:1.1}
+.brand-text b{font:900 19px Orbitron;letter-spacing:1px}
+.brand-text b span{color:var(--red);text-shadow:0 0 15px #ff000080}
+.brand-text small{
+ display:block;font:700 8px Inter;
+ letter-spacing:3px;color:#777;margin-top:4px;
+}
+.menu-title{
+ font-size:9px;color:#666;font-weight:800;
+ letter-spacing:2px;padding:12px 12px;
+}
+.nav-link{
+ display:flex;align-items:center;gap:12px;
+ padding:13px 12px;border-radius:8px;
+ color:#999;font-size:11px;font-weight:700;
+ margin:4px 0;transition:.25s;
+}
+.nav-link:hover,.nav-link.active{
+ background:linear-gradient(90deg,#4c1010,#1b0b0b);
+ color:#fff;border-left:3px solid var(--red);
+}
+.nav-link .symbol{
+ width:20px;text-align:center;font-size:15px;
+}
+.sidebar-bottom{
+ position:absolute;bottom:20px;left:16px;right:16px;
+ background:#160b0b;border:1px solid #422020;
+ padding:14px;border-radius:10px;
+}
+.sidebar-bottom b{font-size:10px}
+.sidebar-bottom p{font-size:9px;color:#999;margin-top:6px;line-height:1.7}
+
+/* MAIN */
+.main{
+ margin-left:245px;width:calc(100% - 245px);
+ padding:25px 30px 40px;
+}
+.topbar{
+ display:flex;align-items:center;
+ justify-content:space-between;
+ gap:15px;padding-bottom:22px;
+ border-bottom:1px solid var(--border);
+}
+.page-title{font:800 19px Orbitron}
+.page-title span{color:var(--red)}
+.top-right{display:flex;align-items:center;gap:12px}
+.user{
+ border:1px solid var(--border);
+ background:#111;padding:9px 13px;
+ border-radius:8px;font-size:10px;color:#ddd;
+}
+.menu-btn{
+ display:none;background:#171010;
+ color:white;border:1px solid #482020;
+ padding:9px 12px;border-radius:7px;
+ font-size:18px;cursor:pointer;
+}
+
+/* PAGE CONTENT */
+.heading{margin:30px 0 20px}
+.heading h1{font-size:23px;font-weight:900}
+.heading p{color:var(--muted);font-size:11px;margin-top:8px}
+
+.server-banner{
+ background:linear-gradient(115deg,#260909,#110b0b 65%,#190707);
+ border:1px solid #552020;border-radius:13px;
+ padding:23px;display:flex;
+ align-items:center;justify-content:space-between;
+ gap:20px;flex-wrap:wrap;
+ box-shadow:0 10px 40px #0005;
+}
+.server-info h2{
+ font:800 17px Orbitron;letter-spacing:1px;
+}
+.server-info p{font-size:10px;color:#aaa;margin-top:9px}
+.server-status{
+ display:flex;align-items:center;gap:8px;
+ background:#092518;border:1px solid #175a36;
+ color:#55e69b;border-radius:30px;
+ padding:10px 15px;font-size:9px;font-weight:900;
+}
+.dot{
+ width:7px;height:7px;background:var(--green);
+ border-radius:50%;box-shadow:0 0 10px var(--green);
+ animation:blink 1.5s infinite;
+}
+@keyframes blink{50%{opacity:.3}}
+
+.stats{
+ display:grid;grid-template-columns:repeat(4,1fr);
+ gap:14px;margin-top:20px;
+}
+.card{
+ background:linear-gradient(145deg,#151111,#0e0e0e);
+ border:1px solid var(--border);
+ border-radius:11px;padding:18px;
+ transition:.3s;
+}
+.card:hover{
+ transform:translateY(-4px);
+ border-color:#722222;
+ box-shadow:0 10px 25px #ff000010;
+}
+.card-label{
+ color:#999;font-size:9px;font-weight:800;
+ letter-spacing:1px;
+}
+.card-value{
+ font:800 23px Orbitron;margin-top:15px;
+}
+.card-value span{font:600 10px Inter;color:#999}
+.card-note{font-size:9px;color:#777;margin-top:8px}
+.card-icon{
+ float:right;font-size:17px;color:#ff4545;
+}
+
+.content-grid{
+ display:grid;grid-template-columns:1.3fr .7fr;
+ gap:16px;margin-top:18px;
+}
+.section{
+ background:#101010;border:1px solid var(--border);
+ border-radius:11px;padding:20px;
+}
+.section-head{
+ display:flex;align-items:center;
+ justify-content:space-between;margin-bottom:22px;
+}
+.section-head h3{font-size:12px;font-weight:900}
+.section-head span{font-size:9px;color:#888}
+.resource{margin:20px 0}
+.resource-top{
+ display:flex;justify-content:space-between;
+ font-size:10px;margin-bottom:10px;
+}
+.resource-top span:last-child{color:#aaa}
+.track{
+ width:100%;height:7px;background:#292020;
+ border-radius:10px;overflow:hidden;
+}
+.fill{
+ height:100%;border-radius:10px;
+ background:linear-gradient(90deg,#8e0000,#ff2929);
+ box-shadow:0 0 12px #ff292950;
+}
+.fill.cpu{width:38%}
+.fill.ram{width:62%}
+.fill.storage{width:45%}
+
+.details{display:flex;flex-direction:column;gap:0}
+.detail{
+ display:flex;justify-content:space-between;
+ align-items:center;padding:14px 0;
+ border-bottom:1px solid #292020;
+ font-size:10px;gap:10px;
+}
+.detail:last-child{border:0}
+.detail span:first-child{color:#999}
+.detail b{font-size:10px;text-align:right}
+
+.activity{
+ margin-top:18px;
+}
+.activity-row{
+ display:flex;align-items:center;gap:12px;
+ padding:14px 0;border-bottom:1px solid #292020;
+}
+.activity-row:last-child{border:0}
+.activity-icon{
+ width:32px;height:32px;border-radius:8px;
+ background:#260d0d;color:#ff5555;
+ display:flex;align-items:center;
+ justify-content:center;font-size:14px;
+}
+.activity-text{flex:1}
+.activity-text b{font-size:10px}
+.activity-text p{font-size:9px;color:#888;margin-top:5px}
+.activity-time{font-size:9px;color:#777}
+
+.refresh{
+ border:1px solid #692020;
+ background:linear-gradient(110deg,#d71919,#740000);
+ color:white;padding:11px 16px;border-radius:7px;
+ font-size:9px;font-weight:900;cursor:pointer;
+ transition:.3s;
+}
+.refresh:hover{transform:translateY(-2px);box-shadow:0 5px 20px #ff000030}
+
+footer{
+ text-align:center;color:#666;
+ font-size:9px;padding:30px 0 5px;
+}
+footer span{color:var(--red)}
+
+.overlay{
+ display:none;position:fixed;inset:0;
+ background:#0009;z-index:9;
+}
+
+/* MUSIC TOGGLE */
+.music-toggle{
+ position:fixed;bottom:22px;right:22px;z-index:600;
+ width:50px;height:50px;border-radius:50%;
+ background:linear-gradient(135deg,#1a0505,#0a0202);
+ border:1px solid var(--red);color:var(--red);font-size:20px;
+ display:grid;place-items:center;cursor:pointer;
+ box-shadow:0 0 15px #ff000070;
+ transition:transform .3s,box-shadow .3s;
+ animation:musicPulse 2.5s ease-in-out infinite;
+}
+@keyframes musicPulse{
+ 0%,100%{box-shadow:0 0 15px #ff000070}
+ 50%{box-shadow:0 0 30px var(--red)}
+}
+.music-toggle:hover{transform:scale(1.1);animation-play-state:paused}
+.music-toggle.playing{
+ color:#fff;background:linear-gradient(135deg,var(--red),#3a0000);
+}
+.music-toggle .icon-off{display:inline}
+.music-toggle .icon-on{display:none}
+.music-toggle.playing .icon-off{display:none}
+.music-toggle.playing .icon-on{display:inline}
+
+@media(max-width:1100px){
+ .stats{grid-template-columns:repeat(2,1fr)}
+ .content-grid{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+ .sidebar{transform:translateX(-100%)}
+ .sidebar.open{transform:translateX(0)}
+ .overlay.show{display:block}
+ .main{margin-left:0;width:100%;padding:18px 15px}
+ .menu-btn{display:block}
+ .page-title{font-size:15px}
+ .heading h1{font-size:20px}
+ .stats{gap:10px}
+ .card{padding:14px}
+ .card-value{font-size:19px}
+ .server-banner{padding:18px}
+ .brand-logo{width:34px;height:34px}
+ .brand-text b{font-size:16px}
+}
+@media(max-width:380px){
+ .stats{grid-template-columns:1fr}
+ .top-right .user{display:none}
+ .music-toggle{width:45px;height:45px;font-size:18px;bottom:15px;right:15px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{
+  animation:none!important;transition:none!important;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND FIRE / EMBER LAYER -->
+<div id="fire-layer"></div>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bg-music" loop preload="auto">
+ <source src="https://files.catbox.moe/p3kwy7.mp3">
+</audio>
+
+<button class="music-toggle" id="musicToggle" aria-label="Toggle background music">
+ <span class="icon-off">🔇</span>
+ <span class="icon-on">🔊</span>
+</button>
+
+<div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+<div class="layout">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+ <a href="/" class="brand">
+  <img src="https://i.postimg.cc/C5tfyH1H/file-00000000ba30820b8f4a7075c4fd3a41.png" alt="Logo" class="brand-logo">
+  <div class="brand-text">
+   <b>H4X <span>ALTAF</span></b>
+   <small>HOSTING PLATFORM</small>
+  </div>
+ </a>
+
+ <div class="menu-title">MAIN MENU</div>
+
+ <a href="/dashboard" class="nav-link">
+  <span class="symbol">⌂</span> Dashboard
+ </a>
+ <a href="/server" class="nav-link active">
+  <span class="symbol">▣</span> Server Overview
+ </a>
+ <a href="/dashboard#hosting" class="nav-link">
+  <span class="symbol">◈</span> My Hosting
+ </a>
+ <a href="/dashboard#plans" class="nav-link">
+  <span class="symbol">♧</span> Buy Hosting
+ </a>
+
+ <div class="menu-title">ACCOUNT</div>
+
+ <a href="/dashboard#profile" class="nav-link">
+  <span class="symbol">♙</span> My Profile
+ </a>
+ <a href="/dashboard#billing" class="nav-link">
+  <span class="symbol">₹</span> Billing
+ </a>
+ <a href="https://t.me/H4X_ALTAF" target="_blank" rel="noopener noreferrer" class="nav-link">
+  <span class="symbol">✉</span> Support
+ </a>
+ <a href="/login" class="nav-link">
+  <span class="symbol">⇥</span> Logout
+ </a>
+
+ <div class="sidebar-bottom">
+  <b>H4X ALTAF SUPPORT</b>
+  <p>Need help with your hosting server? Contact our support team.</p>
+ </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+ <header class="topbar">
+  <div style="display:flex;align-items:center;gap:13px">
+   <button class="menu-btn" onclick="toggleMenu()">☰</button>
+   <div class="page-title">SERVER <span>OVERVIEW</span></div>
+  </div>
+  <div class="top-right">
+   <div class="user">WELCOME, USER</div>
+   <button class="refresh" onclick="refreshPage()">↻ REFRESH</button>
+  </div>
+ </header>
+
+ <section class="heading">
+  <h1>Server Dashboard</h1>
+  <p>Monitor your hosting server and resource information.</p>
+ </section>
+
+ <!-- SERVER STATUS -->
+ <section class="server-banner">
+  <div class="server-info">
+   <h2>H4X ALTAF MAIN SERVER</h2>
+   <p>Server ID: <b>H4X-SERVER-001</b> &nbsp; | &nbsp; Region: India</p>
+  </div>
+  <div class="server-status">
+   <span class="dot"></span> ONLINE
+  </div>
+ </section>
+
+ <!-- STATISTICS -->
+ <section class="stats">
+
+  <div class="card">
+   <span class="card-icon">◉</span>
+   <div class="card-label">CPU USAGE</div>
+   <div class="card-value">38<span>%</span></div>
+   <div class="card-note">Sample display value</div>
+  </div>
+
+  <div class="card">
+   <span class="card-icon">▤</span>
+   <div class="card-label">RAM USAGE</div>
+   <div class="card-value">62<span>%</span></div>
+   <div class="card-note">Sample display value</div>
+  </div>
+
+  <div class="card">
+   <span class="card-icon">▣</span>
+   <div class="card-label">STORAGE</div>
+   <div class="card-value">45<span>%</span></div>
+   <div class="card-note">Sample display value</div>
+  </div>
+
+  <div class="card">
+   <span class="card-icon">◷</span>
+   <div class="card-label">UPTIME</div>
+   <div class="card-value">99<span>.9%</span></div>
+   <div class="card-note">Illustrative value</div>
+  </div>
+
+ </section>
+
+ <!-- RESOURCE + DETAILS -->
+ <section class="content-grid">
+
+  <div class="section">
+   <div class="section-head">
+    <h3>RESOURCE MONITOR</h3>
+    <span>DEMO DATA</span>
+   </div>
+
+   <div class="resource">
+    <div class="resource-top">
+     <b>CPU Usage</b><span>38%</span>
+    </div>
+    <div class="track"><div class="fill cpu"></div></div>
+   </div>
+
+   <div class="resource">
+    <div class="resource-top">
+     <b>RAM Usage</b><span>62%</span>
+    </div>
+    <div class="track"><div class="fill ram"></div></div>
+   </div>
+
+   <div class="resource">
+    <div class="resource-top">
+     <b>Storage Usage</b><span>45%</span>
+    </div>
+    <div class="track"><div class="fill storage"></div></div>
+   </div>
+  </div>
+
+  <div class="section">
+   <div class="section-head">
+    <h3>SERVER INFORMATION</h3>
+    <span>DETAILS</span>
+   </div>
+
+   <div class="details">
+    <div class="detail">
+     <span>Server Name</span><b>H4X Main</b>
+    </div>
+    <div class="detail">
+     <span>Operating System</span><b>Linux</b>
+    </div>
+    <div class="detail">
+     <span>Region</span><b>India</b>
+    </div>
+    <div class="detail">
+     <span>Server Status</span><b style="color:#28d982">Online</b>
+    </div>
+    <div class="detail">
+     <span>Server ID</span><b>H4X-001</b>
+    </div>
+   </div>
+  </div>
+
+ </section>
+
+ <!-- ACTIVITY -->
+ <section class="section activity">
+  <div class="section-head">
+   <h3>RECENT SERVER ACTIVITY</h3>
+   <span>DEMO ENTRIES</span>
+  </div>
+
+  <div class="activity-row">
+   <div class="activity-icon">✓</div>
+   <div class="activity-text">
+    <b>Server Dashboard Loaded</b>
+    <p>The server overview page was opened.</p>
+   </div>
+   <div class="activity-time">NOW</div>
+  </div>
+
+  <div class="activity-row">
+   <div class="activity-icon">↻</div>
+   <div class="activity-text">
+    <b>Resource Monitor</b>
+    <p>Sample resource information displayed.</p>
+   </div>
+   <div class="activity-time">—</div>
+  </div>
+
+  <div class="activity-row">
+   <div class="activity-icon">◈</div>
+   <div class="activity-text">
+    <b>Hosting Platform</b>
+    <p>H4X ALTAF hosting interface initialized.</p>
+   </div>
+   <div class="activity-time">—</div>
+  </div>
+ </section>
+
+ <footer>
+  © 2026 <span>H4X ALTAF</span> — ALL RIGHTS RESERVED.
+ </footer>
+
+</main>
+</div>
+
+<script>
+function toggleMenu(){
+ const sidebar=document.getElementById("sidebar");
+ const overlay=document.getElementById("overlay");
+ sidebar.classList.toggle("open");
+ overlay.classList.toggle("show");
+}
+
+function refreshPage(){
+ location.reload();
+}
+
+// 1. Background Music Toggle
+(function(){
+ const music=document.getElementById("bg-music");
+ const btn=document.getElementById("musicToggle");
+ music.volume=0.35;
+ let playing=false;
+
+ function updateUI(state){
+  playing=state;
+  btn.classList.toggle("playing",state);
+ }
+
+ btn.addEventListener("click",()=>{
+  if(playing){music.pause();updateUI(false);}
+  else{music.play().then(()=>updateUI(true)).catch(()=>updateUI(false));}
+ });
+
+ window.addEventListener("load",()=>{
+  music.play().then(()=>updateUI(true)).catch(()=>updateUI(false));
+ });
+
+ document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){if(playing)music.pause();}
+  else{if(playing)music.play().catch(()=>{});}
+ });
+})();
+
+// 2. Fire & Ember Animation
+(function(){
+ const layer = document.getElementById("fire-layer");
+ const isMobile = window.innerWidth < 600;
+ const count = isMobile ? 25 : 50;
+
+ function createEmber() {
+  const ember = document.createElement("div");
+  ember.className = "ember";
+  
+  const size = Math.random() * 6 + 2; // 2px to 8px
+  const startX = Math.random() * 100; // 0 to 100vw
+  const delay = Math.random() * 5;
+  const duration = Math.random() * 4 + 4; // 4s to 8s
+
+  ember.style.width = size + "px";
+  ember.style.height = size + "px";
+  ember.style.left = startX + "vw";
+  ember.style.animationDelay = delay + "s";
+  ember.style.animationDuration = duration + "s";
+
+  layer.appendChild(ember);
+
+  // Remove after animation completes to save memory
+  setTimeout(() => {
+   ember.remove();
+  }, (duration + delay) * 1000 + 500);
+ }
+
+ // Initial spawn
+ for(let i=0; i<count; i++) {
+  createEmber();
+ }
+
+ // Constant spawning
+ setInterval(() => {
+  if(!document.hidden) createEmber();
+ }, 200);
+})();
+</script>
+
+</body>
+</html>

@@ -1,1 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#090909">
+<title>H4X ALTAF | Dashboard</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;700;800;900&display=swap" rel="stylesheet">
 
+<style>
+:root {
+    --red:#ff2020;
+    --dark-red:#850000;
+    --bg:#090909;
+    --card:#141414;
+    --border:#302020;
+    --muted:#999;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+    background:var(--bg);
+    color:white;
+    font-family:Inter,sans-serif;
+    min-height:100vh;
+    overflow-x:hidden;
+}
+body::before,body::after{
+    content:"";
+    position:fixed;
+    width:350px;height:350px;
+    border-radius:50%;
+    filter:blur(120px);
+    pointer-events:none;
+    z-index:-1;
+}
+body::before{background:#a0000030;top:-150px;right:-100px}
+body::after{background:#70000020;bottom:-150px;left:-100px}
+#particles{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.particle{
+    position:absolute;width:3px;height:3px;
+    background:red;border-radius:50%;
+    box-shadow:0 0 12px red;
+    animation:floatUp linear infinite;
+}
+@keyframes floatUp{
+    from{transform:translateY(105vh);opacity:0}
+    15%{opacity:.7}
+    85%{opacity:.4}
+    to{transform:translateY(-10vh);opacity:0}
+}
+.loader{
+    position:fixed;inset:0;background:#080808;
+    z-index:9999;display:grid;place-items:center;
+    animation:hideLoader .5s ease 1.3s forwards;
+}
+.loader h2{
+    font:900 25px Orbitron;
+    letter-spacing:3px;
+    text-shadow:0 0 20px red;
+}
+.loader h2 span{color:red}
+.loader div{
+    height:3px;width:170px;background:#420000;
+    margin:20px auto;overflow:hidden;
+}
+.loader div:after{
+    content:"";display:block;width:40%;height:100%;
+    background:red;animation:loading 1s infinite;
+}
+@keyframes loading{to{transform:translateX(450%)}}
+@keyframes hideLoader{to{opacity:0;visibility:hidden;pointer-events:none}}
+
+.layout{display:flex;min-height:100vh}
+.sidebar{
+    position:fixed;left:0;top:0;width:250px;height:100vh;
+    background:#101010ee;backdrop-filter:blur(15px);
+    border-right:1px solid var(--border);
+    padding:25px 17px;z-index:100;
+    display:flex;flex-direction:column;
+    transition:.3s;
+}
+.logo{
+    display:flex;align-items:center;gap:12px;
+    padding:10px;margin-bottom:28px;
+    letter-spacing:1px;
+}
+.logo-img{
+    width:44px;height:44px;
+    border-radius:12px;
+    object-fit:cover;
+    box-shadow:0 0 20px #ff202070, 0 0 40px #ff000030;
+    border:1px solid #ff202050;
+    transition:.3s;
+}
+.logo-img:hover{
+    box-shadow:0 0 30px #ff2020aa, 0 0 60px #ff000050;
+    transform:scale(1.05);
+}
+.logo-text{
+    font:900 21px Orbitron;
+}
+.logo-text span{color:var(--red);text-shadow:0 0 15px red}
+.logo-text small{
+    display:block;font:700 9px Inter;
+    letter-spacing:4px;color:#777;margin-top:8px;
+}
+.menu-title{
+    color:#666;font-size:9px;font-weight:800;
+    letter-spacing:2px;padding:10px;margin-top:12px;
+}
+.nav-item{
+    display:flex;align-items:center;gap:13px;
+    padding:13px;margin:4px 0;border-radius:9px;
+    color:#aaa;text-decoration:none;font-size:12px;
+    font-weight:600;border:1px solid transparent;
+    transition:.25s;cursor:pointer;
+}
+.nav-item:hover{
+    background:#290909;color:white;
+    border-color:#651515;transform:translateX(4px);
+}
+.nav-item.active{
+    background:linear-gradient(110deg,#a90000,#420000);
+    color:white;border-color:#8b1717;
+    box-shadow:0 5px 20px #ff000025;
+}
+.nav-icon{width:21px;text-align:center;font-size:17px}
+.sidebar-bottom{
+    margin-top:auto;background:#210909;
+    border:1px solid #591414;border-radius:12px;padding:15px;
+}
+.sidebar-bottom b{color:#ff4545;font-size:11px}
+.sidebar-bottom p{color:#999;font-size:10px;line-height:1.6;margin-top:7px}
+
+.main{
+    margin-left:250px;width:calc(100% - 250px);
+    padding:25px 32px;max-width:1700px;
+    animation:appear .6s ease;
+}
+@keyframes appear{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px}
+.top-left{display:flex;align-items:center;gap:13px}
+.welcome h2{font-size:23px;font-weight:800}
+.welcome h2 span{color:var(--red)}
+.welcome p{color:var(--muted);font-size:11px;margin-top:7px}
+.top-right{display:flex;align-items:center;gap:12px}
+.menu-toggle,.notification{
+    background:#171010;border:1px solid var(--border);
+    color:white;width:42px;height:42px;border-radius:10px;
+    font-size:19px;cursor:pointer;
+}
+.menu-toggle{display:none}
+.notification{position:relative}
+.notification:after{
+    content:"";position:absolute;width:7px;height:7px;
+    background:red;border-radius:50%;top:8px;right:8px;
+    box-shadow:0 0 10px red;
+}
+.profile{
+    display:flex;align-items:center;gap:10px;
+    background:#171010;border:1px solid var(--border);
+    border-radius:11px;padding:7px 12px;
+}
+.avatar{
+    width:35px;height:35px;display:grid;place-items:center;
+    border-radius:9px;background:linear-gradient(135deg,#ff3333,#650000);
+    font:900 14px Orbitron;
+}
+.profile-info b{font-size:11px}
+.profile-info p{color:#777;font-size:9px;margin-top:4px}
+
+/* ---------- HIGH-QUALITY BUTTON ANIMATIONS ---------- */
+.primary-btn{
+    display:inline-block;margin-top:20px;padding:12px 19px;
+    border:0;border-radius:8px;background:white;
+    color:#990000;font-size:10px;font-weight:900;
+    cursor:pointer;position:relative;overflow:hidden;
+    transition:transform .2s ease, box-shadow .3s ease, background .3s ease;
+    z-index:1;
+    letter-spacing:.5px;
+    box-shadow:0 0 0 0 rgba(255,255,255,.7);
+}
+.primary-btn::before{
+    content:"";
+    position:absolute;inset:0;
+    background:linear-gradient(110deg, #fff, #ffd0d0, #fff);
+    background-size:200% 100%;
+    border-radius:8px;
+    z-index:-1;
+    animation:shine 2.4s linear infinite;
+}
+@keyframes shine{
+    0%{background-position:0% 0}
+    100%{background-position:200% 0}
+}
+.primary-btn::after{
+    content:"";
+    position:absolute;width:20px;height:20px;
+    background:radial-gradient(circle, #ff4040, transparent 70%);
+    border-radius:50%;
+    top:50%;left:50%;transform:translate(-50%,-50%) scale(0);
+    opacity:0;transition:transform .5s, opacity .5s;
+    pointer-events:none;
+}
+.primary-btn:hover{
+    transform:translateY(-4px) scale(1.02);
+    box-shadow:0 8px 25px #ff000066, 0 0 30px #ff202033;
+}
+.primary-btn:hover::after{
+    transform:translate(-50%,-50%) scale(8);
+    opacity:1;
+}
+.primary-btn:active{
+    transform:translateY(-1px) scale(.98);
+    box-shadow:0 4px 12px #ff000044;
+}
+
+/* upload button high quality */
+.upload-btn{
+    border:1px solid #a50000;
+    background:linear-gradient(100deg,#c90000,#650000);
+    color:white;border-radius:8px;padding:12px 19px;
+    margin-top:19px;font-size:10px;font-weight:800;
+    cursor:pointer;position:relative;overflow:hidden;
+    transition:transform .2s, box-shadow .3s;
+    letter-spacing:.5px;
+}
+.upload-btn::before{
+    content:"";
+    position:absolute;inset:-2px;
+    background:linear-gradient(45deg, #ff0000, #ff6600, #ff0000, #cc0000);
+    background-size:300% 300%;
+    border-radius:10px;
+    z-index:-2;
+    animation:borderGlow 2s linear infinite;
+    filter:blur(6px);opacity:.7;
+}
+@keyframes borderGlow{
+    0%{background-position:0% 50%}
+    50%{background-position:100% 50%}
+    100%{background-position:0% 50%}
+}
+.upload-btn:hover{
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 8px 25px #ff000077, 0 0 20px #ff202055;
+}
+.upload-btn:active{
+    transform:translateY(0) scale(.97);
+}
+
+/* ---------- FIRE PARTICLES / EMBERS ---------- */
+#fire-container{
+    position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden;
+}
+.fire-particle{
+    position:absolute;border-radius:50%;
+    background:radial-gradient(circle, #ff6a00, #ff0000 60%, #880000 100%);
+    box-shadow:0 0 10px #ff4400, 0 0 20px #ff2200;
+    opacity:0;
+    animation:fireFloat linear infinite;
+    will-change:transform,opacity;
+    filter:blur(.5px);
+}
+@keyframes fireFloat{
+    0%{transform:translateY(0) scale(1);opacity:0}
+    10%{opacity:1;transform:translateY(-20px) scale(1.1)}
+    50%{opacity:.8;transform:translateY(-60vh) scale(.8)}
+    85%{opacity:.3;transform:translateY(-90vh) scale(.4)}
+    100%{transform:translateY(-100vh) scale(.2);opacity:0}
+}
+
+.banner{
+    position:relative;overflow:hidden;
+    border:1px solid #7e1717;border-radius:16px;
+    padding:30px;margin-bottom:28px;
+    background:radial-gradient(circle at 85% 50%,#ff000025,transparent 30%),
+    linear-gradient(110deg,#380000,#a00000 55%,#210000);
+    animation:bannerGlow 4s ease-in-out infinite alternate;
+}
+@keyframes bannerGlow{
+    from{box-shadow:0 5px 20px #ff000010}
+    to{box-shadow:0 5px 35px #ff000045}
+}
+.banner:after{
+    content:"H4X";position:absolute;right:30px;top:-20px;
+    font:900 clamp(80px,13vw,150px) Orbitron;
+    color:#ffffff0b;pointer-events:none;
+}
+.banner-content{position:relative;z-index:1}
+.banner-tag{
+    display:inline-block;background:#ffffff16;
+    border:1px solid #ffffff22;border-radius:30px;
+    padding:6px 11px;color:#ffbaba;
+    font-size:9px;font-weight:800;letter-spacing:2px;
+    margin-bottom:15px;
+}
+.banner h2{font:800 clamp(19px,3vw,25px) Orbitron;margin-bottom:11px}
+.banner p{color:#e6baba;font-size:11px;line-height:1.8;max-width:440px}
+
+.section-heading{
+    display:flex;align-items:center;
+    justify-content:space-between;margin-bottom:16px;
+}
+.section-heading h3{font-size:15px;font-weight:800}
+.section-heading span{color:#777;font-size:10px}
+
+.stats{
+    display:grid;grid-template-columns:repeat(4,1fr);
+    gap:15px;margin-bottom:30px;
+}
+.stat-card{
+    position:relative;overflow:hidden;padding:19px;
+    background:linear-gradient(145deg,#191313,#101010);
+    border:1px solid var(--border);border-radius:13px;
+    transition:.3s;animation:cardIn .7s ease both;
+}
+.stat-card:nth-child(2){animation-delay:.1s}
+.stat-card:nth-child(3){animation-delay:.2s}
+.stat-card:nth-child(4){animation-delay:.3s}
+@keyframes cardIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+.stat-card:hover{
+    transform:translateY(-7px);
+    border-color:#9e2525;box-shadow:0 12px 30px #ff000018;
+}
+.stat-icon{
+    width:39px;height:39px;display:grid;place-items:center;
+    background:linear-gradient(135deg,#4d0a0a,#210707);
+    border:1px solid #5e1515;border-radius:10px;
+    font-size:18px;margin-bottom:17px;
+}
+.stat-card p{color:#999;font-size:10px}
+.stat-card h2{font:700 23px Orbitron;margin:9px 0}
+.stat-card small{color:#df4646;font-size:9px}
+
+.content-grid{
+    display:grid;grid-template-columns:1.6fr 1fr;gap:17px;
+}
+.panel{
+    background:#121212ee;border:1px solid var(--border);
+    border-radius:13px;padding:20px;transition:.3s;
+}
+.panel:hover{border-color:#542020}
+.panel-header{
+    display:flex;justify-content:space-between;
+    align-items:center;margin-bottom:19px;
+}
+.panel-header h3{font-size:13px;font-weight:800}
+.view-all{color:var(--red);background:none;border:0;font-size:10px;font-weight:800;cursor:pointer}
+.empty-state{text-align:center;padding:28px 10px}
+.empty-icon{
+    width:65px;height:65px;display:grid;place-items:center;
+    margin:0 auto 16px;background:#280909;
+    border:1px solid #5b1717;border-radius:18px;
+    color:#ff4646;font-size:27px;
+    animation:emptyFloat 3s ease-in-out infinite;
+}
+@keyframes emptyFloat{50%{transform:translateY(-7px)}}
+.empty-state h3{font-size:13px}
+.empty-state p{
+    color:#888;font-size:10px;line-height:1.8;
+    max-width:300px;margin:9px auto 0;
+}
+
+.activity-item{
+    display:flex;align-items:center;gap:12px;
+    padding:13px 0;border-bottom:1px solid #252020;
+}
+.activity-item:last-child{border:0}
+.activity-icon{
+    width:35px;height:35px;display:grid;place-items:center;
+    background:#290909;border-radius:9px;font-size:15px;
+}
+.activity-info b{font-size:10px}
+.activity-info p{font-size:9px;color:#777;margin-top:5px}
+.status{
+    margin-left:auto;color:#777;font-size:9px;
+}
+.status.online{color:#22c55e}
+
+.services{
+    display:grid;grid-template-columns:repeat(3,1fr);
+    gap:13px;margin-top:28px;
+}
+.service{
+    padding:17px;background:#141414;
+    border:1px solid var(--border);
+    border-radius:12px;transition:.3s;
+}
+.service:hover{
+    transform:translateY(-5px);
+    border-color:#a00000;
+    box-shadow:0 8px 25px #ff000018;
+}
+.service-icon{font-size:23px;margin-bottom:12px}
+.service h4{font-size:11px;margin-bottom:7px}
+.service p{font-size:9px;color:#888;line-height:1.7}
+
+.footer{
+    text-align:center;color:#555;
+    font-size:9px;margin-top:35px;padding:20px;
+    border-top:1px solid #251717;
+}
+.footer span{color:#d52b2b}
+
+/* ---------- MUSIC TOGGLE ---------- */
+.music-toggle{
+    position:fixed;bottom:24px;right:24px;z-index:200;
+    width:52px;height:52px;border-radius:50%;
+    background:linear-gradient(135deg,#2a0a0a,#1a0505);
+    border:1px solid #ff202050;
+    color:#ff5555;font-size:22px;
+    display:grid;place-items:center;
+    cursor:pointer;
+    box-shadow:0 0 20px #ff000033, inset 0 0 12px #ff000022;
+    transition:transform .3s, box-shadow .3s, border-color .3s;
+    animation:musicPulse 2.5s ease-in-out infinite;
+}
+@keyframes musicPulse{
+    0%,100%{box-shadow:0 0 20px #ff000033, inset 0 0 12px #ff000022}
+    50%{box-shadow:0 0 35px #ff000077, inset 0 0 20px #ff000055}
+}
+.music-toggle:hover{
+    transform:scale(1.12) rotate(5deg);
+    border-color:#ff2020;
+    box-shadow:0 0 40px #ff2020aa;
+    animation-play-state:paused;
+}
+.music-toggle.playing{
+    color:#fff;
+    border-color:#ff2020;
+    background:linear-gradient(135deg,#ff2020,#7a0000);
+    animation:musicPulse 1s ease-in-out infinite;
+}
+.music-toggle .icon-off{display:inline}
+.music-toggle .icon-on{display:none}
+.music-toggle.playing .icon-off{display:none}
+.music-toggle.playing .icon-on{display:inline}
+
+@media(max-width:1050px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    .content-grid{grid-template-columns:1fr}
+}
+@media(max-width:700px){
+    .sidebar{transform:translateX(-100%)}
+    .sidebar.open{transform:translateX(0);box-shadow:15px 0 40px #0009}
+    .main{margin-left:0;width:100%;padding:19px 15px}
+    .menu-toggle{display:block}
+    .welcome h2{font-size:18px}
+    .welcome p{font-size:9px}
+    .profile-info{display:none}
+    .banner{padding:23px 18px}
+    .stats{gap:10px}
+    .stat-card{padding:14px}
+    .stat-card h2{font-size:19px}
+    .content-grid{grid-template-columns:1fr}
+    .services{grid-template-columns:repeat(2,1fr)}
+    .logo-img{width:36px;height:36px}
+    .logo-text{font-size:17px}
+}
+@media(max-width:380px){
+    .services{grid-template-columns:1fr}
+    .top-right{gap:6px}
+    .notification,.menu-toggle{width:37px;height:37px}
+    .music-toggle{width:46px;height:46px;bottom:16px;right:16px;font-size:19px}
+}
+@media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{
+        animation-duration:.01ms!important;
+        animation-iteration-count:1!important;
+        scroll-behavior:auto!important;
+        transition-duration:.01ms!important;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="loader">
+    <div class="loader-content">
+        <h2>H4X <span>ALTAF</span></h2>
+        <div></div>
+    </div>
+</div>
+
+<!-- fire container -->
+<div id="fire-container"></div>
+<div id="particles"></div>
+
+<!-- background music -->
+<audio id="bg-music" loop preload="auto">
+    <source src="https://www.image2url.com/r2/default/audio/1791932308677-8274844f-c990-452e-aea1-9fad247c0578.mp3" type="audio/mpeg">
+</audio>
+
+<!-- music toggle -->
+<button class="music-toggle" id="musicToggle" aria-label="Toggle background music">
+    <span class="icon-off">🔇</span>
+    <span class="icon-on">🔊</span>
+</button>
+
+<div class="layout">
+
+<aside class="sidebar" id="sidebar">
+    <div class="logo">
+        <img src="https://i.postimg.cc/C5tfyH1H/file-00000000ba30820b8f4a7075c4fd3a41.png" alt="H4X ALTAF Logo" class="logo-img">
+        <div class="logo-text">
+            H4X <span>ALTAF</span>
+            <small>HOSTING PLATFORM</small>
+        </div>
+    </div>
+
+    <div class="menu-title">MAIN MENU</div>
+    <a href="/dashboard" class="nav-item active"><span class="nav-icon">⌂</span> Dashboard</a>
+    <a href="/my-hosting" class="nav-item"><span class="nav-icon">▣</span> My Hosting</a>
+    <a href="/upload-service" class="nav-item"><span class="nav-icon">⇧</span> Upload Service</a>
+    <a href="/buy-hosting" class="nav-item"><span class="nav-icon">◈</span> Buy Hosting</a>
+
+    <div class="menu-title">MY ACCOUNT</div>
+    <a href="/my-balance" class="nav-item"><span class="nav-icon">₹</span> My Balance</a>
+    <a href="/history" class="nav-item"><span class="nav-icon">◷</span> Transaction History</a>
+    <a href="/profile" class="nav-item"><span class="nav-icon">♙</span> My Profile</a>
+
+    <div class="menu-title">SUPPORT</div>
+    <a href="#" class="nav-item" onclick="showMessage('Support page will be connected soon.')"><span class="nav-icon">◉</span> Support</a>
+    <a href="#" class="nav-item" onclick="showMessage('Settings will be available soon.')"><span class="nav-icon">⚙</span> Settings</a>
+
+    <div class="sidebar-bottom">
+        <b>⚡ H4X PREMIUM</b>
+        <p>Powerful hosting for your bots, websites and applications.</p>
+    </div>
+</aside>
+
+<main class="main">
+
+    <header class="topbar">
+        <div class="top-left">
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+            <div class="welcome">
+                <h2>Welcome, <span>H4X ALTAF</span></h2>
+                <p>Manage your hosting services from one place.</p>
+            </div>
+        </div>
+
+        <div class="top-right">
+            <button class="notification" onclick="showMessage('No new notifications.')">♧</button>
+            <div class="profile">
+                <div class="avatar">H</div>
+                <div class="profile-info">
+                    <b>H4X ALTAF</b>
+                    <p>USER ACCOUNT</p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section class="banner">
+        <div class="banner-content">
+            <div class="banner-tag">✦ PREMIUM HOSTING PLATFORM</div>
+            <h2>WELCOME TO H4X ALTAF</h2>
+            <p>
+                Your all-in-one hosting platform. Host Telegram bots,
+                Python applications, HTML websites and more.
+            </p>
+            <button class="primary-btn" onclick="location.href='/buy-hosting'">
+                EXPLORE HOSTING &nbsp; →
+            </button>
+        </div>
+    </section>
+
+    <div class="section-heading">
+        <h3>Dashboard Overview</h3>
+        <span>YOUR ACCOUNT SUMMARY</span>
+    </div>
+
+    <section class="stats">
+        <div class="stat-card">
+            <div class="stat-icon">▣</div>
+            <p>Total Hosting</p>
+            <h2>00</h2>
+            <small>Active services</small>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">⚡</div>
+            <p>Running Services</p>
+            <h2>00</h2>
+            <small>Currently running</small>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">₹</div>
+            <p>Wallet Balance</p>
+            <h2>₹0.00</h2>
+            <small>Available balance</small>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-icon">◷</div>
+            <p>Total Spent</p>
+            <h2>₹0.00</h2>
+            <small>Lifetime spending</small>
+        </div>
+    </section>
+
+    <section class="content-grid">
+
+        <div class="panel">
+            <div class="panel-header">
+                <h3>My Hosting Services</h3>
+                <button class="view-all" onclick="location.href='/my-hosting'">VIEW ALL →</button>
+            </div>
+
+            <div class="empty-state">
+                <div class="empty-icon">▣</div>
+                <h3>No Hosting Services Yet</h3>
+                <p>You haven't purchased any hosting service. Start hosting your applications today.</p>
+                <button class="upload-btn" onclick="location.href='/buy-hosting'">
+                    + BUY HOSTING
+                </button>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-header">
+                <h3>Recent Activity</h3>
+                <button class="view-all" onclick="location.href='/history'">HISTORY →</button>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">◈</div>
+                <div class="activity-info">
+                    <b>Account Created</b>
+                    <p>Welcome to H4X ALTAF</p>
+                </div>
+                <span class="status online">● Done</span>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">₹</div>
+                <div class="activity-info">
+                    <b>Wallet Balance</b>
+                    <p>No transactions yet</p>
+                </div>
+                <span class="status">—</span>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">⚡</div>
+                <div class="activity-info">
+                    <b>Hosting Status</b>
+                    <p>No active hosting</p>
+                </div>
+                <span class="status">—</span>
+            </div>
+        </div>
+
+    </section>
+
+    <div class="section-heading" style="margin-top:30px">
+        <h3>Available Services</h3>
+        <span>CHOOSE YOUR SERVICE</span>
+    </div>
+
+    <section class="services">
+        <div class="service">
+            <div class="service-icon">🤖</div>
+            <h4>Telegram Bot Hosting</h4>
+            <p>Host your Telegram bots with reliable service.</p>
+        </div>
+        <div class="service">
+            <div class="service-icon">🐍</div>
+            <h4>Python App Hosting</h4>
+            <p>Deploy your Python applications.</p>
+        </div>
+        <div class="service">
+            <div class="service-icon">🌐</div>
+            <h4>HTML Website Hosting</h4>
+            <p>Publish your personal and business websites.</p>
+        </div>
+        <div class="service">
+            <div class="service-icon">⚙️</div>
+            <h4>Web Applications</h4>
+            <p>Run your web applications on our platform.</p>
+        </div>
+        <div class="service">
+            <div class="service-icon">🚀</div>
+            <h4>Advanced Hosting</h4>
+            <p>More resources for demanding applications.</p>
+        </div>
+        <div class="service">
+            <div class="service-icon">💎</div>
+            <h4>Premium Hosting</h4>
+            <p>Explore premium hosting packages.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        © 2026 <span>H4X ALTAF</span> — ALL RIGHTS RESERVED.
+    </footer>
+
+</main>
+</div>
+
+<script>
+function toggleMenu(){
+    document.getElementById("sidebar").classList.toggle("open");
+}
+
+function showMessage(message){
+    alert(message);
+}
+
+/* ---------- LIGHTWEIGHT BACKGROUND PARTICLES ---------- */
+(function(){
+    const container = document.getElementById("particles");
+    const count = window.innerWidth < 600 ? 12 : 24;
+
+    for(let i=0;i<count;i++){
+        const particle = document.createElement("span");
+        particle.className = "particle";
+        particle.style.left = Math.random()*100 + "%";
+        particle.style.animationDuration = (7+Math.random()*10) + "s";
+        particle.style.animationDelay = (Math.random()*10) + "s";
+        container.appendChild(particle);
+    }
+})();
+
+/* ---------- FIRE PARTICLES / EMBERS ---------- */
+(function(){
+    const fireContainer = document.getElementById("fire-container");
+    const FIRE_COUNT = window.innerWidth < 600 ? 18 : 35;
+
+    function createFireParticle(){
+        const p = document.createElement("div");
+        p.className = "fire-particle";
+
+        const size = 2 + Math.random() * 5; // 2–7px
+        p.style.width = size + "px";
+        p.style.height = size + "px";
+        p.style.left = Math.random() * 100 + "%";
+        p.style.bottom = (-10 - Math.random()*10) + "px";
+
+        const duration = 5 + Math.random() * 8; // 5–13s
+        const delay = Math.random() * 12;
+
+        p.style.animationDuration = duration + "s";
+        p.style.animationDelay = delay + "s";
+
+        /* random horizontal drift via CSS variable */
+        p.style.setProperty('--drift', (Math.random() * 60 - 30) + "px");
+
+        /* override keyframes to include drift */
+        p.style.animationName = "fireDrift";
+
+        fireContainer.appendChild(p);
+
+        /* remove after it's done (safety) */
+        setTimeout(() => {
+            p.remove();
+        }, (duration + delay + 2) * 1000);
+    }
+
+    /* inject drift keyframes */
+    const style = document.createElement('style');
+    style.textContent = `
+    @keyframes fireDrift {
+        0%   { transform: translate(0, 0) scale(1); opacity: 0; }
+        10%  { opacity: 1; transform: translate(calc(var(--drift) * 0.1), -20px) scale(1.2); }
+        50%  { opacity: .85; transform: translate(calc(var(--drift) * 0.5), -55vh) scale(.85); }
+        85%  { opacity: .3; transform: translate(calc(var(--drift) * 0.9), -90vh) scale(.4); }
+        100% { transform: translate(var(--drift), -110vh) scale(.15); opacity: 0; }
+    }`;
+    document.head.appendChild(style);
+
+    /* initial burst */
+    for(let i = 0; i < FIRE_COUNT; i++){
+        createFireParticle();
+    }
+
+    /* continuous spawn */
+    setInterval(() => {
+        if(document.hidden) return;
+        const count = window.innerWidth < 600 ? 1 : 2;
+        for(let i = 0; i < count; i++){
+            createFireParticle();
+        }
+    }, 700);
+
+    /* keep particle count reasonable */
+    setInterval(() => {
+        if(fireContainer.children.length > 120){
+            const removeCount = fireContainer.children.length - 100;
+            for(let i = 0; i < removeCount; i++){
+                if(fireContainer.firstChild) fireContainer.firstChild.remove();
+            }
+        }
+    }, 4000);
+})();
+
+/* ---------- BACKGROUND MUSIC TOGGLE ---------- */
+(function(){
+    const music = document.getElementById("bg-music");
+    const toggle = document.getElementById("musicToggle");
+    let isPlaying = false;
+
+    // Volume (0.0 – 1.0)
+    music.volume = 0.35;
+
+    function setPlaying(state){
+        isPlaying = state;
+        if(isPlaying){
+            toggle.classList.add("playing");
+            music.play().catch(()=>{ /* autoplay blocked – wait for click */ });
+        } else {
+            toggle.classList.remove("playing");
+            music.pause();
+        }
+    }
+
+    toggle.addEventListener("click", () => {
+        setPlaying(!isPlaying);
+    });
+
+    // Try autoplay (many browsers block until interaction)
+    // If blocked, user will click the button.
+    window.addEventListener("load", () => {
+        music.play().then(() => {
+            setPlaying(true);
+        }).catch(() => {
+            // autoplay blocked – keep UI in off state
+            setPlaying(false);
+        });
+    });
+
+    // Pause when tab hidden, resume only if user had it on
+    document.addEventListener("visibilitychange", () => {
+        if(document.hidden){
+            if(isPlaying) music.pause();
+        } else {
+            if(isPlaying) music.play().catch(()=>{});
+        }
+    });
+})();
+
+/* ---------- CLOSE MOBILE MENU AFTER NAVIGATION ---------- */
+document.querySelectorAll(".nav-item").forEach(item=>{
+    item.addEventListener("click",()=>{
+        if(window.innerWidth <= 700){
+            document.getElementById("sidebar").classList.remove("open");
+        }
+    });
+});
+</script>
+
+</body>
+</html>

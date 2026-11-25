@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>H4X ALTAF | Maintenance</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --red:#ff2525;
+ --dark:#080808;
+ --muted:#999;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+ min-height:100vh;background:var(--dark);color:white;
+ font-family:Inter,sans-serif;display:flex;
+ flex-direction:column;overflow:hidden;position:relative;
+}
+body:before,body:after{
+ content:"";position:fixed;width:350px;height:350px;
+ border-radius:50%;filter:blur(120px);
+ pointer-events:none;z-index:-1;
+}
+body:before{background:#c0000030;top:-150px;left:-100px}
+body:after{background:#90000025;bottom:-150px;right:-100px}
+
+/* FIRE & EMBER LAYER */
+#fire-layer {
+ position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.ember {
+ position: absolute; bottom: -20px; border-radius: 50%;
+ background: radial-gradient(circle, #fff 0%, var(--red) 40%, transparent 80%);
+ box-shadow: 0 0 10px var(--red), 0 0 20px var(--red);
+ animation: flyUp linear infinite;
+}
+@keyframes flyUp {
+ 0% { transform: translateY(0) scale(1); opacity: 0; }
+ 10% { opacity: 1; }
+ 80% { opacity: 0.8; }
+ 100% { transform: translateY(-110vh) scale(0); opacity: 0; }
+}
+
+.navbar{
+ height:72px;padding:0 7%;display:flex;
+ align-items:center;justify-content:space-between;
+ border-bottom:1px solid #321414;
+ background:#0b0b0b; position:relative; z-index:10;
+}
+.brand{
+ display:flex;align-items:center;gap:11px;
+ font:900 20px Orbitron;letter-spacing:1px;
+}
+.brand-logo{
+ width:42px;height:42px;border-radius:10px;object-fit:cover;
+ border:1px solid var(--red);background:#1a0505;
+ box-shadow:0 0 15px #ff000070;transition:transform .3s;
+}
+.brand-logo:hover{transform:scale(1.05)}
+.brand-text b{font:900 18px Orbitron;letter-spacing:1px}
+.brand-text b span{color:var(--red);text-shadow:0 0 10px red}
+.brand-text small{
+ display:block;font:700 8px Inter;
+ color:#777;letter-spacing:3px;margin-top:4px;
+}
+.status{
+ color:#ff7777;font-size:9px;font-weight:800;
+ letter-spacing:1px;background:#350909;
+ border:1px solid #702020;padding:9px 13px;
+ border-radius:30px;
+}
+.status i{
+ display:inline-block;width:7px;height:7px;
+ background:#ff3030;border-radius:50%;
+ margin-right:7px;box-shadow:0 0 10px red;
+ animation:pulse 1.4s infinite;
+}
+@keyframes pulse{50%{opacity:.3;box-shadow:0 0 2px red}}
+
+main{
+ flex:1;display:flex;align-items:center;
+ justify-content:center;padding:40px 18px;
+ position:relative;z-index:10;
+}
+.container{
+ width:100%;max-width:680px;text-align:center;
+ animation:enter .8s ease both;
+}
+@keyframes enter{
+ from{opacity:0;transform:translateY(25px)}
+ to{opacity:1;transform:translateY(0)}
+}
+.icon-wrap{
+ width:115px;height:115px;margin:0 auto 30px;
+ border:1px solid #792020;border-radius:30px;
+ background:linear-gradient(145deg,#321010,#130909);
+ display:flex;align-items:center;justify-content:center;
+ box-shadow:0 0 45px #ff000020,inset 0 0 25px #ff000010;
+ animation:float 3s ease-in-out infinite;
+}
+@keyframes float{
+ 50%{transform:translateY(-10px)}
+}
+.icon-wrap svg{width:57px;height:57px}
+.eyebrow{
+ display:inline-block;color:#ff7777;
+ font-size:10px;font-weight:900;letter-spacing:3px;
+ margin-bottom:20px;
+}
+h1{
+ font:900 clamp(35px,7vw,62px)/1.15 Orbitron;
+ letter-spacing:-2px;
+}
+h1 span{
+ color:var(--red);
+ text-shadow:0 0 25px #ff000055;
+}
+.description{
+ max-width:480px;margin:20px auto 0;
+ color:#999;font-size:12px;line-height:2;
+}
+.progress-box{
+ max-width:390px;margin:35px auto 0;
+ text-align:left;
+}
+.progress-info{
+ display:flex;justify-content:space-between;
+ color:#aaa;font-size:9px;margin-bottom:11px;
+}
+.progress-track{
+ width:100%;height:5px;background:#271414;
+ border-radius:10px;overflow:hidden;
+}
+.progress-fill{
+ height:100%;width:65%;
+ background:linear-gradient(90deg,#820000,#ff2929);
+ border-radius:10px;
+ box-shadow:0 0 12px #ff2222;
+ animation:progress 2s ease-in-out infinite alternate;
+}
+@keyframes progress{
+ from{width:55%}to{width:75%}
+}
+.info{
+ display:flex;justify-content:center;gap:12px;
+ flex-wrap:wrap;margin-top:30px;
+}
+.info-item{
+ border:1px solid #321818;background:#100c0c;
+ padding:12px 17px;border-radius:9px;
+ color:#aaa;font-size:9px;
+}
+.info-item b{color:white}
+.actions{
+ display:flex;justify-content:center;
+ gap:12px;flex-wrap:wrap;margin-top:30px;
+}
+.btn{
+ display:inline-flex;align-items:center;
+ justify-content:center;padding:13px 20px;
+ border-radius:8px;font-size:10px;
+ font-weight:900;letter-spacing:.5px;
+ text-decoration:none;transition:.3s;
+}
+.btn-primary{
+ color:white;background:linear-gradient(110deg,#ff2929,#790000);
+ box-shadow:0 5px 20px #ff000025;
+}
+.btn-secondary{
+ color:#ddd;border:1px solid #492020;
+ background:#100c0c;
+}
+.btn:hover{transform:translateY(-3px)}
+footer{
+ border-top:1px solid #281414;padding:19px;
+ text-align:center;color:#666;font-size:9px;
+ position:relative;z-index:10;
+}
+footer span{color:#ff3333}
+
+/* MUSIC TOGGLE */
+.music-toggle{
+ position:fixed;bottom:22px;right:22px;z-index:600;
+ width:50px;height:50px;border-radius:50%;
+ background:linear-gradient(135deg,#1a0505,#0a0202);
+ border:1px solid var(--red);color:var(--red);font-size:20px;
+ display:grid;place-items:center;cursor:pointer;
+ box-shadow:0 0 15px #ff000070;
+ transition:transform .3s,box-shadow .3s;
+ animation:musicPulse 2.5s ease-in-out infinite;
+}
+@keyframes musicPulse{
+ 0%,100%{box-shadow:0 0 15px #ff000070}
+ 50%{box-shadow:0 0 30px var(--red)}
+}
+.music-toggle:hover{transform:scale(1.1);animation-play-state:paused}
+.music-toggle.playing{
+ color:#fff;background:linear-gradient(135deg,var(--red),#3a0000);
+}
+.music-toggle .icon-off{display:inline}
+.music-toggle .icon-on{display:none}
+.music-toggle.playing .icon-off{display:none}
+.music-toggle.playing .icon-on{display:inline}
+
+@media(max-width:480px){
+ .navbar{padding:0 5%;height:65px}
+ .brand-text b{font-size:15px}
+ .brand-logo{width:38px;height:38px}
+ .status{font-size:8px;padding:8px}
+ .icon-wrap{width:95px;height:95px}
+ .icon-wrap svg{width:47px;height:47px}
+ h1{letter-spacing:-1px}
+ .description{font-size:11px}
+ .info-item{padding:10px 12px}
+ .music-toggle{width:45px;height:45px;font-size:18px;bottom:15px;right:15px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{
+  animation:none!important;transition:none!important;
+ }
+}
+</style>
+</head>
+
+<body>
+
+<!-- BACKGROUND FIRE / EMBER LAYER -->
+<div id="fire-layer"></div>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bg-music" loop preload="auto">
+ <source src="https://files.catbox.moe/porhg5.mp3">
+</audio>
+
+<button class="music-toggle" id="musicToggle" aria-label="Toggle background music">
+ <span class="icon-off">🔇</span>
+ <span class="icon-on">🔊</span>
+</button>
+
+<nav class="navbar">
+ <a href="/" class="brand">
+  <img src="https://i.postimg.cc/C5tfyH1H/file-00000000ba30820b8f4a7075c4fd3a41.png" alt="Logo" class="brand-logo">
+  <div class="brand-text">
+   <b>H4X <span>ALTAF</span></b>
+   <small>HOSTING PLATFORM</small>
+  </div>
+ </a>
+ <div class="status"><i></i>SYSTEM MAINTENANCE</div>
+</nav>
+
+<main>
+ <section class="container">
+
+  <div class="icon-wrap">
+   <svg viewBox="0 0 64 64" fill="none" stroke="#ff3838" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M25 13a17 17 0 0 0 22 22L30 52a8 8 0 0 1-11-11l17-17A17 17 0 0 0 25 13Z"/>
+    <path d="m43 15 6-6 6 6-6 6z"/>
+   </svg>
+  </div>
+
+  <div class="eyebrow">✦ TEMPORARILY UNAVAILABLE</div>
+
+  <h1>WE'LL BE<br><span>BACK SOON</span></h1>
+
+  <p class="description">
+   H4X ALTAF is currently undergoing scheduled maintenance
+   to improve performance, security and your hosting experience.
+   Our team is working to bring everything back online.
+  </p>
+
+  <div class="progress-box">
+   <div class="progress-info">
+    <span>MAINTENANCE IN PROGRESS</span>
+    <span>PLEASE WAIT</span>
+   </div>
+   <div class="progress-track">
+    <div class="progress-fill"></div>
+   </div>
+  </div>
+
+  <div class="info">
+   <div class="info-item">STATUS: <b>Under Maintenance</b></div>
+   <div class="info-item">PLATFORM: <b>H4X ALTAF</b></div>
+  </div>
+
+  <div class="actions">
+   <a href="/" class="btn btn-primary">TRY AGAIN →</a>
+   <a href="https://t.me/H4X_ALTAF" target="_blank" rel="noopener noreferrer" class="btn btn-secondary">CONTACT SUPPORT</a>
+  </div>
+
+ </section>
+</main>
+
+<footer>
+ © 2026 <span>H4X ALTAF</span> — ALL RIGHTS RESERVED.
+</footer>
+
+<script>
+// 1. Background Music Toggle
+(function(){
+ const music=document.getElementById("bg-music");
+ const btn=document.getElementById("musicToggle");
+ music.volume=0.35;
+ let playing=false;
+
+ function updateUI(state){
+  playing=state;
+  btn.classList.toggle("playing",state);
+ }
+
+ btn.addEventListener("click",()=>{
+  if(playing){music.pause();updateUI(false);}
+  else{music.play().then(()=>updateUI(true)).catch(()=>updateUI(false));}
+ });
+
+ window.addEventListener("load",()=>{
+  music.play().then(()=>updateUI(true)).catch(()=>updateUI(false));
+ });
+
+ document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){if(playing)music.pause();}
+  else{if(playing)music.play().catch(()=>{});}
+ });
+})();
+
+// 2. Fire & Ember Animation
+(function(){
+ const layer = document.getElementById("fire-layer");
+ const isMobile = window.innerWidth < 600;
+ const count = isMobile ? 25 : 50;
+
+ function createEmber() {
+  const ember = document.createElement("div");
+  ember.className = "ember";
+  
+  const size = Math.random() * 6 + 2; // 2px to 8px
+  const startX = Math.random() * 100; // 0 to 100vw
+  const delay = Math.random() * 5;
+  const duration = Math.random() * 4 + 4; // 4s to 8s
+
+  ember.style.width = size + "px";
+  ember.style.height = size + "px";
+  ember.style.left = startX + "vw";
+  ember.style.animationDelay = delay + "s";
+  ember.style.animationDuration = duration + "s";
+
+  layer.appendChild(ember);
+
+  // Remove after animation completes to save memory
+  setTimeout(() => {
+   ember.remove();
+  }, (duration + delay) * 1000 + 500);
+ }
+
+ // Initial spawn
+ for(let i=0; i<count; i++) {
+  createEmber();
+ }
+
+ // Constant spawning
+ setInterval(() => {
+  if(!document.hidden) createEmber();
+ }, 200);
+})();
+</script>
+
+</body>
+</html>

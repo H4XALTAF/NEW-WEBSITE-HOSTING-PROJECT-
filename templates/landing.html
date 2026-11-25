@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080808">
+<title>H4X ALTAF | Premium Hosting</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Orbitron:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+
+<style>
+:root{
+ --red:#ff2020;--dark:#080808;--card:#141111;
+ --border:#382020;--muted:#999;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--dark);color:white;font-family:Inter,sans-serif;overflow-x:hidden}
+body:before,body:after{
+ content:"";position:fixed;width:350px;height:350px;
+ border-radius:50%;filter:blur(120px);z-index:-2;pointer-events:none
+}
+body:before{background:#a0000030;top:-150px;right:-100px}
+body:after{background:#70000020;bottom:-150px;left:-100px}
+#particles{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.particle{
+ position:absolute;width:3px;height:3px;border-radius:50%;
+ background:red;box-shadow:0 0 12px red;
+ animation:rise linear infinite
+}
+@keyframes rise{
+ from{transform:translateY(105vh);opacity:0}
+ 15%{opacity:.7}85%{opacity:.4}
+ to{transform:translateY(-10vh);opacity:0}
+}
+a{text-decoration:none;color:inherit}
+.btn{
+ display:inline-flex;align-items:center;justify-content:center;
+ padding:13px 20px;border-radius:8px;font-size:10px;
+ font-weight:900;transition:.3s;cursor:pointer
+}
+.btn-red{
+ background:linear-gradient(110deg,#ff2929,#790000);
+ border:1px solid #a90000;color:white;
+ box-shadow:0 5px 20px #ff000025
+}
+.btn-red:hover{transform:translateY(-4px);box-shadow:0 8px 25px #ff000055}
+.btn-outline{border:1px solid #702020;color:white}
+.btn-outline:hover{border-color:red;color:#ff5555}
+
+/* NAVBAR */
+.navbar{
+ height:75px;padding:0 7%;display:flex;align-items:center;
+ justify-content:space-between;background:#0b0b0bea;
+ backdrop-filter:blur(18px);border-bottom:1px solid #321414;
+ position:sticky;top:0;z-index:100
+}
+.brand{
+ display:flex;align-items:center;gap:11px;
+ font:900 21px Orbitron;letter-spacing:1px;
+}
+.brand-logo{
+ width:44px;height:44px;border-radius:11px;object-fit:cover;
+ border:1px solid #ff202060;
+ box-shadow:0 0 16px #ff202070,0 0 32px #ff000040;
+ background:#1a0505;
+ transition:transform .35s,box-shadow .35s;
+ animation:logoGlow 3s ease-in-out infinite;
+}
+@keyframes logoGlow{
+ 0%,100%{box-shadow:0 0 16px #ff202070,0 0 32px #ff000040}
+ 50%{box-shadow:0 0 28px #ff2020cc,0 0 55px #ff000080}
+}
+.brand-logo:hover{transform:scale(1.08) rotate(-3deg)}
+.brand-text{line-height:1.1}
+.brand-text b{font:900 20px Orbitron;letter-spacing:1px}
+.brand-text b span{color:var(--red);text-shadow:0 0 15px red}
+.brand-text small{display:block;font:700 8px Inter;color:#777;letter-spacing:3px;margin-top:6px}
+.nav-links{display:flex;align-items:center;gap:25px}
+.nav-links a{color:#aaa;font-size:11px;font-weight:700;transition:.3s}
+.nav-links a:hover{color:white}
+.nav-actions{display:flex;gap:10px;align-items:center}
+.menu-btn{
+ display:none;background:#1a1010;color:white;
+ border:1px solid var(--border);padding:9px 12px;
+ border-radius:8px;font-size:19px
+}
+
+/* MUSIC TOGGLE */
+.music-toggle{
+ position:fixed;bottom:22px;right:22px;z-index:600;
+ width:52px;height:52px;border-radius:50%;
+ background:linear-gradient(135deg,#2a0a0a,#1a0505);
+ border:1px solid #ff202060;color:#ff5555;font-size:21px;
+ display:grid;place-items:center;cursor:pointer;
+ box-shadow:0 0 18px #ff000044,inset 0 0 10px #ff000022;
+ transition:transform .3s,box-shadow .3s;
+ animation:musicPulse 2.5s ease-in-out infinite;
+}
+@keyframes musicPulse{
+ 0%,100%{box-shadow:0 0 18px #ff000044,inset 0 0 10px #ff000022}
+ 50%{box-shadow:0 0 32px #ff000088,inset 0 0 18px #ff000055}
+}
+.music-toggle:hover{transform:scale(1.12);border-color:#ff2020;animation-play-state:paused}
+.music-toggle.playing{
+ color:#fff;border-color:#ff2020;
+ background:linear-gradient(135deg,#ff2020,#7a0000);
+}
+.music-toggle .icon-off{display:inline}
+.music-toggle .icon-on{display:none}
+.music-toggle.playing .icon-off{display:none}
+.music-toggle.playing .icon-on{display:inline}
+
+/* HERO */
+.hero{
+ min-height:670px;padding:90px 8%;display:flex;
+ align-items:center;position:relative;overflow:hidden
+}
+.hero-content{max-width:690px;z-index:2;animation:fadeUp .9s ease both}
+.tag{
+ display:inline-block;padding:8px 14px;background:#350909;
+ border:1px solid #772020;border-radius:30px;
+ color:#ff7777;font-size:9px;font-weight:900;
+ letter-spacing:2px;margin-bottom:25px
+}
+.hero h1{font:900 clamp(38px,6.5vw,73px)/1.14 Orbitron;letter-spacing:-2px}
+.hero h1 span{color:var(--red);text-shadow:0 0 30px #ff000077}
+.hero p{max-width:520px;margin-top:23px;color:#aaa;font-size:12px;line-height:2}
+.hero-buttons{display:flex;gap:13px;flex-wrap:wrap;margin-top:30px}
+.hero-buttons .btn{padding:15px 22px}
+.hero-art{
+ position:absolute;right:9%;top:50%;transform:translateY(-50%);
+ width:310px;height:310px;border:1px solid #ff202044;
+ border-radius:50%;display:grid;place-items:center;
+ box-shadow:0 0 70px #ff000018,inset 0 0 50px #ff000015;
+ animation:float 5s ease-in-out infinite
+}
+.hero-art:before,.hero-art:after{
+ content:"";position:absolute;border-radius:50%;border:1px solid #ff202055
+}
+.hero-art:before{inset:25px}.hero-art:after{inset:55px}
+.hero-logo-img{
+ width:120px;height:120px;border-radius:24px;object-fit:cover;
+ border:2px solid #ff202080;
+ box-shadow:0 0 40px #ff2020aa,0 0 80px #ff000060;
+ animation:heroLogoPulse 3.5s ease-in-out infinite;
+ background:#1a0505;
+}
+@keyframes heroLogoPulse{
+ 0%,100%{box-shadow:0 0 40px #ff2020aa,0 0 80px #ff000060}
+ 50%{box-shadow:0 0 60px #ff2020dd,0 0 110px #ff0000aa}
+}
+@keyframes float{
+ 0%,100%{transform:translateY(-50%)}
+ 50%{transform:translateY(calc(-50% - 14px))}
+}
+@keyframes fadeUp{
+ from{opacity:0;transform:translateY(25px)}
+ to{opacity:1;transform:translateY(0)}
+}
+
+/* STATS */
+.stats{
+ display:grid;grid-template-columns:repeat(3,1fr);
+ background:#110c0c;border-top:1px solid #321414;
+ border-bottom:1px solid #321414;padding:25px 8%;gap:15px
+}
+.stat{text-align:center}
+.stat h2{font:800 23px Orbitron;color:#ff3636}
+.stat p{font-size:9px;color:#888;margin-top:8px;letter-spacing:1px}
+
+/* SECTIONS */
+.section{padding:85px 8%}
+.heading{text-align:center;margin-bottom:42px}
+.heading>span{color:#ff5555;font-size:9px;font-weight:900;letter-spacing:3px}
+.heading h2{font:800 clamp(24px,4vw,36px) Orbitron;margin-top:14px}
+.heading h2 em{color:red;font-style:normal}
+.heading p{max-width:530px;margin:14px auto 0;color:#888;font-size:11px;line-height:1.9}
+
+/* FEATURES */
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:17px}
+.card{
+ padding:25px;background:linear-gradient(145deg,#191313,#101010);
+ border:1px solid var(--border);border-radius:13px;transition:.35s
+}
+.card:hover{transform:translateY(-8px);border-color:#a00000;box-shadow:0 12px 30px #ff000018}
+.icon{
+ width:48px;height:48px;display:grid;place-items:center;
+ background:#350909;border:1px solid #6b1717;
+ border-radius:11px;font-size:21px;margin-bottom:19px
+}
+.card h3{font-size:13px;margin-bottom:10px}
+.card p{font-size:10px;color:#999;line-height:1.9}
+
+/* WHY US */
+.why{background:linear-gradient(180deg,#100909,#080808);border-block:1px solid #291414}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:35px;align-items:center}
+.why-art{
+ min-height:300px;border-radius:18px;border:1px solid #671414;
+ background:radial-gradient(circle,#650000,#190606 70%);
+ display:grid;place-items:center;overflow:hidden
+}
+.why-art strong{font:900 clamp(60px,10vw,110px) Orbitron;color:#ffffff12}
+.why-art strong span{color:#ff2020}
+.why-list{display:grid;gap:20px}
+.why-item{display:flex;gap:14px;align-items:flex-start}
+.check{
+ width:32px;height:32px;flex-shrink:0;display:grid;
+ place-items:center;background:#3a0909;border:1px solid #781818;
+ border-radius:9px;color:#ff5555
+}
+.why-item h3{font-size:12px;margin-bottom:7px}
+.why-item p{font-size:10px;color:#999;line-height:1.8}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.step{
+ text-align:center;padding:25px 18px;background:#131313;
+ border:1px solid var(--border);border-radius:12px;transition:.3s
+}
+.step:hover{border-color:#9b0000;transform:translateY(-5px)}
+.number{
+ width:45px;height:45px;margin:0 auto 17px;display:grid;
+ place-items:center;border-radius:50%;background:#4a0909;
+ border:1px solid #9d2020;color:#ff5555;font:800 15px Orbitron
+}
+.step h3{font-size:12px;margin-bottom:9px}
+.step p{font-size:10px;color:#888;line-height:1.8}
+
+/* CTA */
+.cta{
+ margin:0 8% 80px;padding:48px 25px;text-align:center;
+ border-radius:16px;border:1px solid #8e1717;
+ background:radial-gradient(circle at center,#590000,#170707 75%);
+ box-shadow:0 0 40px #ff000015
+}
+.cta h2{font:800 clamp(22px,4vw,34px) Orbitron}
+.cta h2 span{color:#ff3434}
+.cta p{color:#bbb;font-size:11px;margin:15px auto 23px;line-height:1.8}
+
+/* FOOTER */
+footer{padding:45px 8% 22px;background:#0d0b0b;border-top:1px solid #321414}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:35px;margin-bottom:35px}
+.footer-about p{max-width:320px;color:#888;font-size:10px;line-height:1.9;margin-top:15px}
+.footer-col h3{font-size:11px;margin-bottom:17px}
+.footer-col a{display:block;color:#888;font-size:10px;margin:12px 0;transition:.2s}
+.footer-col a:hover{color:#ff4545}
+.copyright{border-top:1px solid #292020;padding-top:20px;text-align:center;color:#666;font-size:9px}
+.copyright span{color:#ff3636}
+
+@media(max-width:950px){
+ .hero-art{right:3%;width:230px;height:230px;opacity:.5}
+ .hero-logo-img{width:90px;height:90px;border-radius:18px}
+}
+@media(max-width:760px){
+ .navbar{padding:0 5%;height:68px}
+ .menu-btn{display:block}
+ .nav-links{
+  display:none;position:absolute;top:68px;left:0;width:100%;
+  padding:22px 6%;background:#100c0c;
+  border-bottom:1px solid #421414;
+  flex-direction:column;align-items:flex-start;gap:20px
+ }
+ .nav-links.open{display:flex}
+ .hero{min-height:570px;padding:75px 7%}
+ .hero-art{right:-90px;opacity:.2}
+ .hero-content{max-width:100%}
+ .hero h1{font-size:clamp(35px,9vw,55px)}
+ .features{grid-template-columns:repeat(2,1fr)}
+ .why-grid{grid-template-columns:1fr}
+ .steps{grid-template-columns:1fr}
+ .footer-grid{grid-template-columns:1fr 1fr}
+ .footer-about{grid-column:1/-1}
+ .brand-logo{width:38px;height:38px}
+ .brand-text b{font-size:17px}
+}
+@media(max-width:480px){
+ .nav-actions .btn-outline{display:none}
+ .hero{min-height:520px}
+ .hero p{font-size:11px}
+ .features{grid-template-columns:1fr}
+ .stats{padding:22px 4%;gap:8px}
+ .stat h2{font-size:16px}.stat p{font-size:8px}
+ .section{padding:65px 6%}
+ .cta{margin:0 5% 55px;padding:35px 18px}
+ .music-toggle{width:46px;height:46px;bottom:16px;right:16px;font-size:19px}
+}
+@media(prefers-reduced-motion:reduce){
+ *,*::before,*::after{
+  animation-duration:.01ms!important;
+  animation-iteration-count:1!important;
+  scroll-behavior:auto!important;
+  transition-duration:.01ms!important
+ }
+}
+</style>
+</head>
+
+<body>
+<div id="particles"></div>
+
+<!-- BACKGROUND MUSIC -->
+<audio id="bg-music" loop preload="auto">
+ <source src="https://www.image2url.com/r2/default/audio/1791932308677-8274844f-c990-452e-aea1-9fad247c0578.mp3" type="audio/mpeg">
+</audio>
+
+<button class="music-toggle" id="musicToggle" aria-label="Toggle background music">
+ <span class="icon-off">🔇</span>
+ <span class="icon-on">🔊</span>
+</button>
+
+<nav class="navbar">
+ <a href="/" class="brand">
+  <img src="https://i.postimg.cc/C5tfyH1H/file-00000000ba30820b8f4a7075c4fd3a41.png"
+       alt="H4X ALTAF Logo" class="brand-logo">
+  <div class="brand-text">
+   <b>H4X <span>ALTAF</span></b>
+   <small>HOSTING PLATFORM</small>
+  </div>
+ </a>
+
+ <div class="nav-links" id="navLinks">
+  <a href="#home" onclick="closeMenu()">Home</a>
+  <a href="#features" onclick="closeMenu()">Features</a>
+  <a href="#why" onclick="closeMenu()">Why Us</a>
+  <a href="#how" onclick="closeMenu()">How It Works</a>
+ </div>
+
+ <div class="nav-actions">
+  <a href="/login" class="btn btn-outline">LOGIN</a>
+  <a href="/login?mode=register" class="btn btn-red">GET STARTED →</a>
+  <button class="menu-btn" onclick="toggleMenu()">☰</button>
+ </div>
+</nav>
+
+<main>
+<section class="hero" id="home">
+ <div class="hero-content">
+  <div class="tag">✦ WELCOME TO H4X ALTAF</div>
+  <h1>HOST YOUR<br><span>DIGITAL</span><br>WORLD.</h1>
+  <p>
+   One platform for your Telegram bots, Python applications,
+   websites and web applications. Get started with a simple
+   and convenient hosting experience.
+  </p>
+  <div class="hero-buttons">
+   <a href="/login?mode=register" class="btn btn-red">CREATE ACCOUNT →</a>
+   <a href="/#plans" class="btn btn-outline">EXPLORE PLANS</a>
+  </div>
+ </div>
+ <div class="hero-art">
+  <img src="https://i.postimg.cc/C5tfyH1H/file-00000000ba30820b8f4a7075c4fd3a41.png"
+       alt="H4X ALTAF" class="hero-logo-img">
+ </div>
+</section>
+
+<section class="stats">
+ <div class="stat"><h2>6+</h2><p>HOSTING CATEGORIES</p></div>
+ <div class="stat"><h2>24/7</h2><p>PLATFORM ACCESS</p></div>
+ <div class="stat"><h2>1 PANEL</h2><p>UNIFIED MANAGEMENT</p></div>
+</section>
+
+<section class="section" id="features">
+ <div class="heading">
+  <span>OUR FEATURES</span>
+  <h2>BUILT FOR <em>YOUR PROJECTS</em></h2>
+  <p>Explore the hosting categories and management features planned for H4X ALTAF.</p>
+ </div>
+
+ <div class="features">
+  <div class="card"><div class="icon">🤖</div><h3>Telegram Bot Hosting</h3><p>Host and manage your Telegram bot projects from one account.</p></div>
+  <div class="card"><div class="icon">🐍</div><h3>Python Applications</h3><p>Deploy supported Python projects with convenient management.</p></div>
+  <div class="card"><div class="icon">🌐</div><h3>Website Hosting</h3><p>Publish HTML websites and web projects in one place.</p></div>
+  <div class="card"><div class="icon">💳</div><h3>Wallet System</h3><p>Manage account balance and view transaction history.</p></div>
+  <div class="card"><div class="icon">🎛️</div><h3>Easy Dashboard</h3><p>Access your services and account information through one dashboard.</p></div>
+  <div class="card"><div class="icon">🛡️</div><h3>Account Protection</h3><p>Account access and permissions will be managed securely by the backend.</p></div>
+ </div>
+</section>
+
+<section class="section why" id="why">
+ <div class="heading">
+  <span>THE H4X ADVANTAGE</span>
+  <h2>WHY CHOOSE <em>US?</em></h2>
+  <p>A simple platform designed to bring your hosting projects together.</p>
+ </div>
+
+ <div class="why-grid">
+  <div class="why-art"><strong>H4<span>X</span></strong></div>
+
+  <div class="why-list">
+   <div class="why-item">
+    <div class="check">✓</div>
+    <div><h3>One Unified Dashboard</h3><p>Manage your hosting services from a single account dashboard.</p></div>
+   </div>
+   <div class="why-item">
+    <div class="check">✓</div>
+    <div><h3>Multiple Hosting Categories</h3><p>Choose from bot, Python, website and application hosting plans.</p></div>
+   </div>
+   <div class="why-item">
+    <div class="check">✓</div>
+    <div><h3>Simple Account Management</h3><p>Keep track of your account, balance and hosting activity.</p></div>
+   </div>
+   <div class="why-item">
+    <div class="check">✓</div>
+    <div><h3>Admin Controlled Platform</h3><p>Platform plans, pricing and user management will be controlled through a protected admin backend.</p></div>
+   </div>
+  </div>
+ </div>
+</section>
+
+<section class="section" id="how">
+ <div class="heading">
+  <span>GET STARTED</span>
+  <h2>THREE SIMPLE <em>STEPS</em></h2>
+  <p>Start your hosting journey with a straightforward process.</p>
+ </div>
+
+ <div class="steps">
+  <div class="step"><div class="number">01</div><h3>Create Your Account</h3><p>Register and access your personal hosting dashboard.</p></div>
+  <div class="step"><div class="number">02</div><h3>Choose A Hosting Plan</h3><p>Select a package that fits your project requirements.</p></div>
+  <div class="step"><div class="number">03</div><h3>Upload Your Project</h3><p>Submit a supported project and manage it through your account.</p></div>
+ </div>
+</section>
+
+<section class="cta">
+ <h2>READY TO <span>GET STARTED?</span></h2>
+ <p>Create your account and explore the H4X ALTAF hosting platform.</p>
+ <a href="/login?mode=register" class="btn btn-red">CREATE ACCOUNT →</a>
+</section>
+</main>
+
+<footer>
+ <div class="footer-grid">
+  <div class="footer-about">
+   <div class="brand">
+    <img src="https://i.postimg.cc/C5tfyH1H/file-00000000ba30820b8f4a7075c4fd3a41.png"
+         alt="H4X ALTAF Logo" class="brand-logo">
+    <div class="brand-text">
+     <b>H4X <span>ALTAF</span></b>
+     <small>HOSTING PLATFORM</small>
+    </div>
+   </div>
+   <p>A platform for hosting Telegram bots, Python applications, websites and web applications.</p>
+  </div>
+  <div class="footer-col">
+   <h3>QUICK LINKS</h3>
+   <a href="/">Home</a><a href="/#features">Features</a>
+   <a href="/#plans">Hosting Plans</a><a href="/login">Login</a>
+  </div>
+  <div class="footer-col">
+   <h3>ACCOUNT</h3>
+   <a href="/login?mode=register">Register</a>
+   <a href="/dashboard">Dashboard</a>
+   <a href="/login">My Account</a>
+  </div>
+ </div>
+ <div class="copyright">© 2026 <span>H4X ALTAF</span> — ALL RIGHTS RESERVED.</div>
+</footer>
+
+<script>
+function toggleMenu(){
+ document.getElementById("navLinks").classList.toggle("open");
+}
+function closeMenu(){
+ document.getElementById("navLinks").classList.remove("open");
+}
+
+// Lightweight background particles
+(function(){
+ const container=document.getElementById("particles");
+ const count=window.innerWidth<600?12:24;
+ for(let i=0;i<count;i++){
+  const p=document.createElement("span");
+  p.className="particle";
+  p.style.left=Math.random()*100+"%";
+  p.style.animationDuration=(8+Math.random()*10)+"s";
+  p.style.animationDelay=(Math.random()*10)+"s";
+  container.appendChild(p);
+ }
+})();
+
+/* BACKGROUND MUSIC TOGGLE */
+(function(){
+ const music=document.getElementById("bg-music");
+ const btn=document.getElementById("musicToggle");
+ music.volume=0.35;
+ let playing=false;
+
+ function updateUI(state){
+  playing=state;
+  btn.classList.toggle("playing",state);
+ }
+
+ btn.addEventListener("click",()=>{
+  if(playing){music.pause();updateUI(false);}
+  else{music.play().then(()=>updateUI(true)).catch(()=>updateUI(false));}
+ });
+
+ window.addEventListener("load",()=>{
+  music.play().then(()=>updateUI(true)).catch(()=>updateUI(false));
+ });
+
+ document.addEventListener("visibilitychange",()=>{
+  if(document.hidden){if(playing)music.pause();}
+  else{if(playing)music.play().catch(()=>{});}
+ });
+})();
+</script>
+</body>
+</html>
